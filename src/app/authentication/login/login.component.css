@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Helvetica Neue LT Com;
+}
+
+.container {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #f9f9f9;
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  justify-content: center;  /* Center horizontally */
+  align-items: center;      /* Center vertically */
+  margin-top: 20px;
+}
+.div1{
+  width: 50%;
+  height: 93vh;
+}
+.login-section {
+  flex: 1;
+  /* padding: 40px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 70px;
+}
+
+.logo {
+  /* margin-bottom: 20px; */
+}
+
+.red-text {
+  color: #b30000;
+}
+
+h1 {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.subtext {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* .input-group, .btn, etc. ... (unchanged) */
+
+/* Right Section (Image) */
+.image-section {
+  flex: 1;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 93vh;
+  object-fit: cover;
+  border-radius: 8px;
+  background-image: url("../../../assets/images/webImage.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.logoImage {
+  width: 180px;
+  height: 30px;
+}
+
+.login-section .text-item {
+  align-items: center;
+  text-align: center;
+}
+
+.login-section h1 {
+  /* Overwritten your existing line for clarity: */
+  font-family: 'Helvetica Neue LT Com';
+  font-size: 30px;
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.login-section p {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* Input Fields */
+.input-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-group input {
+  width: 120%;
+  padding: 0.75rem 2.5rem 0.75rem 2.5rem;
+  border: 2px solid #E8E8EB;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Email Icon */
+.email-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: #C4C4C4;
+}
+
+/* Password Toggle */
+.toggle-password {
+  position: absolute;
+  /* Shift it further right to compensate for the extra width */
+  right: -3rem; 
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+
+.eye-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: #C4C4C4;
+}
+
+/* Thumbs-up Icon */
+.thumbs-up {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+  background: rgba(171, 14, 30, 0.1);
+  padding: 20px;
+  border-radius: 50%;
+}
+
+/* Full-width container (optional) */
+.full-width-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    width: 90%;
+  }
+
+  .login-section,
+  .image-section {
+    width: 100%;
+    flex: none;
+  }
+
+  .image-section img {
+    border-radius: 0;
+  }
+}

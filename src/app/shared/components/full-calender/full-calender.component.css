@@ -1,0 +1,107 @@
+/* Remove grid lines and adjust spacing */
+.fc-theme-standard .fc-scrollgrid {
+    border: none !important;
+  }
+  .fc-col-header-cell-cushion{
+    font-family: Helvetica Neue LT Com !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+  }
+  .fc-theme-standard td, 
+  .fc-theme-standard th {
+    border: none !important; /* Remove borders from cells */
+  }
+  
+  /* Center the title (Month & Year) */
+  .fc-toolbar-title {
+    font-size: 18px;
+    font-family: Helvetica Neue LT Com !important;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Adjust calendar header */
+  .fc-header-toolbar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 0 !important;
+  }
+  
+  /* Remove background colors from days */
+  .fc-daygrid-day {
+    background: none !important;
+  }
+  
+  /* 
+    Make today's date a red circle with white text.
+    This targets only the day number (fc-daygrid-day-number),
+    leaving the cell background alone.
+  */
+  .fc-daygrid-day.fc-day-today {
+    background: none !important; /* remove the default highlight */
+  }
+  .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    background-color: red !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    display: inline-block;
+    width: 28px;       /* adjust as needed */
+    height: 28px;      /* adjust as needed */
+    line-height: 28px; /* centers the text vertically */
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Remove unnecessary default styling */
+  .fc .fc-daygrid-day-frame {
+    padding: 10px !important;
+  }
+  
+  /* Ensure weekends don't have special styling */
+  .fc-day-sat, .fc-day-sun {
+    color: inherit !important;
+  }
+  
+  /* Remove background, borders, and shadow for all FullCalendar buttons */
+  .fc .fc-button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: black !important;
+    font-size: 18px;
+    font-family: Helvetica Neue LT Com !important;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  /* Style specific prev/next buttons */
+  .fc-prev-button, 
+  .fc-next-button {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: black !important;
+    font-size: 18px !important;
+    font-family: Helvetica Neue LT Com !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 8px; /* Optional spacing between arrows and title */
+  }
+  
+  /* Remove hover background */
+  .fc .fc-button:hover,
+  .fc-prev-button:hover, 
+  .fc-next-button:hover {
+    background: none !important;
+  }
+  
+  /* Remove any active or focus effects */
+  .fc .fc-button:focus, 
+  .fc-prev-button:focus, 
+  .fc-next-button:focus {
+    outline: none !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+  

@@ -1,0 +1,10 @@
+<div class="main-control">
+    <app-tab [tabs]="tabsList" (tabChanged)="onTabChange($event)"></app-tab>
+    <ng-container *ngIf="activeTab === 'Todays Meetings'">
+        <app-receiptionist-total-meetings></app-receiptionist-total-meetings>
+      </ng-container>
+    
+      <ng-container *ngIf="activeTab === 'Visitors'">
+        <app-receiptionist-visitors></app-receiptionist-visitors>
+      </ng-container>
+  </div>
