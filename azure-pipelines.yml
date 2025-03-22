@@ -12,14 +12,6 @@ parameters:
       - Production
 
 variables:
-  #Kudu Configuration
-  KUDU_DEPLOYMENT_PASSWORD: 'xT4raceyb5y1ml5agX19hL6DaCszfbvjlDyHDTFxDBHplK2yHhrb4aewz3pz'
-
-  # App Configuration Endpoints
-  DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
-  StagingAppConfigurationEndpoint: 'https://stg-app-config.azconfig.io'
-  ProductionAppConfigurationEndpoint: 'https://prd-app-config.azconfig.io'
-
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
   sonarcloudProjectKey: 'andersen-vms-ff564c1816d5b69e57'
   sonarcloudHost: 'https://sonarcloud.io/'
@@ -27,12 +19,12 @@ variables:
 
   # Azure Storage Account (for artifact upload)
   storageAccountName: 'vmsdevfileserver'
-  containerName: 'vmsadmin-deployemt-container'
+  containerName: 'vmswebclient-deployemt-container'
 
   # Web App Names
-  DevWebAppName: 'vms-dev-admin'
-  StagingWebAppName: 'vms-stg-admin'
-  ProductionWebAppName: 'vms-prd-admin'
+  DevWebAppName: 'vms-dev-webclient'
+  StagingWebAppName: 'vms-stg-webclient'
+  ProductionWebAppName: 'vms-prd-webclient'
 
   # Web App URLs
   dev-url: 'https://$(DevWebAppName).azurewebsites.net'
@@ -65,27 +57,16 @@ stages:
             versionSpec: '22.x'
             checkLatest: true
 
-        - script: |
-            npm install
-          workingDirectory: $(System.DefaultWorkingDirectory)
-          displayName: Install npm
-
         - script: npm ci
           displayName: Restore dependencies
 
         - script: npm run build
           displayName: Build Angular app
 
-        # - script: npm run test
-        #   displayName: Run unit tests
-
-        # - script: npm run integration-test
-        #   displayName: Run integration tests
-
         - task: ArchiveFiles@2
           displayName: 'Archive files'
           inputs:
-            rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
             includeRootFolder: false
             archiveType: zip
             archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -94,9 +75,8 @@ stages:
         - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
           artifact: drop
 
-
 - stage: Deploy
-  displayName: Development
+  displayName: Deploy to Development
   dependsOn: Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq('${{parameters.environment}}', 'Development'))
   jobs:
@@ -121,21 +101,34 @@ stages:
                 ls -l $(Pipeline.Workspace)/drop
               displayName: 'List downloaded artifacts'
 
-            - task: PowerShell@2
-              displayName: Deploy to Azure App Service via Kudu
+            # Upload to Azure Storage for backup (optional)
+            - task: AzureCLI@2
+              displayName: Upload Artifact to Azure Storage
               inputs:
-                targetType: inline
-                script: |
-                  $username = '$($(DevWebAppName))'
-                  $password = '$(KUDU_DEPLOYMENT_PASSWORD)'
-                  $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$username`:$password"))
-                  
-                  $zipFilePath = "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip"
-                  $deployUrl = "https://$(DevWebAppName).scm.azurewebsites.net/api/zipdeploy"
-                  
-                  Write-Output "Deploying to: $deployUrl"
-                  
-                  Invoke-RestMethod -Uri $deployUrl -Method POST -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -InFile $zipFilePath -ContentType "application/zip"
+                azureSubscription: $(azureSubscription)
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  az storage blob upload \
+                    --account-name $(storageAccountName) \
+                    --container-name $(containerName) \
+                    --file "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip" \
+                    --name "$(Build.BuildId).zip" \
+                    --auth-mode login
+
+            # Deploy to App Service using Azure CLI (NO KUDU)
+            - task: AzureCLI@2
+              displayName: Deploy to Azure App Service
+              inputs:
+                azureSubscription: $(azureSubscription)
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  az webapp deploy \
+                    --resource-group MyResourceGroup \
+                    --name $(DevWebAppName) \
+                    --src-path "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip" \
+                    --type zip
 
             - task: CmdLine@2
               displayName: Confirm Site is Up
