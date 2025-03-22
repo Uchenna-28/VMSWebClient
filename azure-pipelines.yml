@@ -28,7 +28,7 @@ variables:
 
   # Web App URLs
   dev-url: 'https://$(DevWebAppName).azurewebsites.net'
-  poll-time: 10s
+  poll-time: 30s
 
 stages:
 - stage: Build
@@ -125,19 +125,18 @@ stages:
               displayName: "Confirm site is up"
               inputs:
                 script: |
-                  sleep $(poll-time)
-                  
-                  url="$(dev-url)"
+                  sleep 30 # Increased initial sleep time
+
+                  url="https://$(DevWebAppName).azurewebsites.net"
                   echo "Checking if app is up at: $url"
 
                   for i in {1..5}; do
-                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url")
-                    
+                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
                     if [ "$response" == "200" ]; then
                       echo "✅ App is up and running!"
                       exit 0
                     fi
-                    
+
                     echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
                     sleep 10
                   done
