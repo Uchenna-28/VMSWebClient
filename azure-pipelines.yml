@@ -12,6 +12,12 @@ parameters:
       - Production
 
 variables:
+
+  # App Configuration Endpoints
+  DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
+  StagingAppConfigurationEndpoint: 'https://stg-app-config.azconfig.io'
+  ProductionAppConfigurationEndpoint: 'https://prd-app-config.azconfig.io'
+
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
   sonarcloudProjectKey: 'andersen-vms-ff564c1816d5b69e57'
   sonarcloudHost: 'https://sonarcloud.io/'
@@ -57,16 +63,27 @@ stages:
             versionSpec: '22.x'
             checkLatest: true
 
+        - script: |
+            npm install
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          displayName: Install npm
+
         - script: npm ci
           displayName: Restore dependencies
 
         - script: npm run build
           displayName: Build Angular app
 
+        # - script: npm run test
+        #   displayName: Run unit tests
+
+        # - script: npm run integration-test
+        #   displayName: Run integration tests
+
         - task: ArchiveFiles@2
           displayName: 'Archive files'
           inputs:
-            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
             includeRootFolder: false
             archiveType: zip
             archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -75,8 +92,9 @@ stages:
         - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
           artifact: drop
 
+
 - stage: Deploy
-  displayName: Deploy to Development
+  displayName: Development
   dependsOn: Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq('${{parameters.environment}}', 'Development'))
   jobs:
@@ -84,7 +102,7 @@ stages:
       displayName: Deploy to Development
       environment: Development
       pool:
-        name: 'vms-dev-deployment-node'
+        vmImage: 'ubuntu-latest'
       strategy:
         runOnce:
           deploy:
@@ -101,41 +119,47 @@ stages:
                 ls -l $(Pipeline.Workspace)/drop
               displayName: 'List downloaded artifacts'
 
-            # Upload to Azure Storage for backup (optional)
-            - task: AzureCLI@2
-              displayName: Upload Artifact to Azure Storage
-              inputs:
-                azureSubscription: $(azureSubscription)
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                  az storage blob upload \
-                    --account-name $(storageAccountName) \
-                    --container-name $(containerName) \
-                    --file "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip" \
-                    --name "$(Build.BuildId).zip" \
-                    --auth-mode login
-
-            # Deploy to App Service using Azure CLI (NO KUDU)
-            - task: AzureCLI@2
+            - task: AzureWebApp@1
               displayName: Deploy to Azure App Service
               inputs:
                 azureSubscription: $(azureSubscription)
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                  az webapp deploy \
-                    --resource-group MyResourceGroup \
-                    --name $(DevWebAppName) \
-                    --src-path "$(Pipeline.Workspace)/drop/$(Build.BuildId).zip" \
-                    --type zip
+                appType: webAppLinux
+                appName: $(DevWebAppName)
+                runtimeStack: 'NODE|22LTS'
+                package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                startUpCommand: 'npm run start'
+
+            # - task: CmdLine@2
+            #   displayName: Confirm Site is Up
+            #   inputs:
+            #     script: |
+            #       sleep $(poll-time)
+            #       curl -sSf $(dev-url) > /dev/null
+            #     failOnStderr: true
 
             - task: CmdLine@2
-              displayName: Confirm Site is Up
+              displayName: "Confirm site is up"
               inputs:
                 script: |
                   sleep $(poll-time)
-                  curl -sSf $(dev-url) > /dev/null
+                  
+                  url="$(dev-url)"
+                  echo "Checking if app is up at: $url"
+
+                  for i in {1..5}; do
+                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+                    
+                    if [ "$response" == "200" ]; then
+                      echo "✅ App is up and running!"
+                      exit 0
+                    fi
+                    
+                    echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
+                    sleep 10
+                  done
+
+                  echo "❌ Deployment failed, app is not responding!"
+                  exit 1
                 failOnStderr: true
 
 - stage: Cleanup
