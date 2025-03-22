@@ -8,15 +8,11 @@ parameters:
     default: 'Development'
     values:
       - Development
-      - Staging
-      - Production
 
 variables:
 
   # App Configuration Endpoints
   DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
-  StagingAppConfigurationEndpoint: 'https://stg-app-config.azconfig.io'
-  ProductionAppConfigurationEndpoint: 'https://prd-app-config.azconfig.io'
 
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
   sonarcloudProjectKey: 'andersen-vms-ff564c1816d5b69e57'
@@ -29,13 +25,9 @@ variables:
 
   # Web App Names
   DevWebAppName: 'vms-dev-webclient'
-  StagingWebAppName: 'vms-stg-webclient'
-  ProductionWebAppName: 'vms-prd-webclient'
 
   # Web App URLs
   dev-url: 'https://$(DevWebAppName).azurewebsites.net'
-  staging-url: 'https://$(StagingWebAppName).azurewebsites.net'
-  production-url: 'https://$(ProductionWebAppName).azurewebsites.net'
   poll-time: 10s
 
 stages:
@@ -128,14 +120,6 @@ stages:
                 runtimeStack: 'NODE|22LTS'
                 package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
                 startUpCommand: 'npm run start'
-
-            # - task: CmdLine@2
-            #   displayName: Confirm Site is Up
-            #   inputs:
-            #     script: |
-            #       sleep $(poll-time)
-            #       curl -sSf $(dev-url) > /dev/null
-            #     failOnStderr: true
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
