@@ -1,0 +1,57 @@
+.main-content {
+    padding: 100px 30px 20px; /* Add top padding to avoid overlapping with the fixed navbar */
+  }
+  
+  .table-controls {
+      display: flex;
+      justify-content: space-between;
+      /* align-items: center; */
+      /* margin: 2rem 0.2rem; */
+    }
+    .main-control{
+      width: 100%;
+      padding: 0.4rem;
+      /* border-collapse: collapse; */
+      background-color: white;
+      border-radius: 10px;
+      /* overflow: hidden; */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+    .past-meetings {
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      margin: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .meetings-list {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      cursor: grab;
+      scroll-behavior: smooth;
+      overflow-x: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+    }
+    
+    .meetings-list::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .meetings-list.active {
+      cursor: grabbing;
+    }
+  
+    .upcoming-meeting{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    
