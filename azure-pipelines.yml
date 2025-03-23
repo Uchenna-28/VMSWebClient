@@ -96,9 +96,6 @@ stages:
           displayName: 'Verify artifact in Build'
 
 
-
-
-
 - stage: Deploy
   displayName: Development
   dependsOn: Build
@@ -130,13 +127,23 @@ stages:
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
                 package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-                startUpCommand: 'npm run start'
+                startUpCommand: 'node server.js'
+
+            - script: |
+                echo "Checking Azure deployment logs..."
+                curl -s "https://$(DevWebAppName).scm.azurewebsites.net/api/deployments/latest" --user "$(AzureUser):$(AzurePassword)" | jq '.status, .log'
+              displayName: 'Check deployment logs'
+
+            - script: |
+                echo "Fetching Azure logs..."
+                curl -s "https://$(DevWebAppName).scm.azurewebsites.net/api/logs/docker" --user "$(AzureUser):$(AzurePassword)"
+              displayName: 'Fetch App Logs'
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
               inputs:
                 script: |
-                  sleep 30 # Increased initial sleep time
+                  sleep 60 # Increased initial sleep time
 
                   url="https://$(DevWebAppName).azurewebsites.net"
                   echo "Checking if app is up at: $url"
@@ -149,7 +156,7 @@ stages:
                     fi
 
                     echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
-                    sleep 10
+                    sleep 15
                   done
 
                   echo "❌ Deployment failed, app is not responding!"
