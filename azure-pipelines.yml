@@ -72,6 +72,10 @@ stages:
         # - script: npm run integration-test
         #   displayName: Run integration tests
 
+        - script: |
+            mkdir -p $(Pipeline.Workspace)/drop
+          displayName: 'Create drop folder'
+
         - task: ArchiveFiles@2
           displayName: 'Archive files'
           inputs:
@@ -81,8 +85,18 @@ stages:
             archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             replaceExistingArchive: true
 
-        - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-          artifact: drop
+        - task: PublishPipelineArtifact@1
+          displayName: 'Publish Artifact to drop folder'
+          inputs:
+            targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+            artifact: 'drop'
+
+        - script: |
+            ls -l $(Build.ArtifactStagingDirectory)
+          displayName: 'Verify artifact in Build'
+
+
+
 
 
 - stage: Deploy
@@ -99,9 +113,6 @@ stages:
         runOnce:
           deploy:
             steps:
-            - checkout: self
-              clean: "true"
-
             - task: DownloadPipelineArtifact@2
               inputs:
                 artifact: 'drop'
