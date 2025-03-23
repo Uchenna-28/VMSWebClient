@@ -129,15 +129,23 @@ stages:
                 package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
                 startUpCommand: 'node server.js'
 
-            - script: |
-                echo "Checking Azure deployment logs..."
-                curl -s "https://$(DevWebAppName).scm.azurewebsites.net/api/deployments/latest" --user "$(AzureUser):$(AzurePassword)" | jq '.status, .log'
+            - task: AzureCLI@2
               displayName: 'Check deployment logs'
+              inputs:
+                azureSubscription: $(azureSubscription)
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  az webapp deployment list --name $(DevWebAppName) --resource-group VMS-DEV-RG --query "[0].status"
 
-            - script: |
-                echo "Fetching Azure logs..."
-                curl -s "https://$(DevWebAppName).scm.azurewebsites.net/api/logs/docker" --user "$(AzureUser):$(AzurePassword)"
+            - task: AzureCLI@2
               displayName: 'Fetch App Logs'
+              inputs:
+                azureSubscription: $(azureSubscription)
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  az webapp log tail --name $(DevWebAppName) --resource-group VMS-DEV-RG
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
