@@ -93,13 +93,13 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                artifact: 'drop'
-                path: $(Pipeline.Workspace)/drop
+            # - task: DownloadPipelineArtifact@2
+            #   inputs:
+            #     artifact: 'drop'
+            #     path: $(Pipeline.Workspace)/drop
 
             - script: |
-                unzip ls -l $(Pipeline.Workspace)/drop
+                ls -l $(Pipeline.Workspace)/drop
               displayName: 'List downloaded artifacts'
 
             - task: AzureWebApp@1
