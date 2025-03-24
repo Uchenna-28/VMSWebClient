@@ -109,8 +109,8 @@ stages:
                 appType: webAppLinux
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
-                package: $(Pipeline.Workspace)/$(Build.BuildId).zip
-                startUpCommand: 'npx serve -s'
+                package: $(Pipeline.Workspace)/drop
+                startUpCommand: 'npx serve -s dist/vms-project-web'
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
