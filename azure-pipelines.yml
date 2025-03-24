@@ -109,7 +109,7 @@ stages:
                 appType: webAppLinux
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
-                package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                package: $(Pipeline.Workspace)/$(Build.BuildId).zip
                 startUpCommand: 'npx serve -s'
 
             - task: CmdLine@2
