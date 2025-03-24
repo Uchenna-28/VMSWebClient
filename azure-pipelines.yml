@@ -15,9 +15,6 @@ variables:
   DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
 
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
-  sonarcloudProjectKey: 'andersen-vms-ff564c1816d5b69e57'
-  sonarcloudHost: 'https://sonarcloud.io/'
-  SonarCloudToken: $(SonarCloudToken)
 
   # Azure Storage Account (for artifact upload)
   storageAccountName: 'vmsdevfileserver'
@@ -54,11 +51,6 @@ stages:
           inputs:
             versionSpec: '22.x'
             checkLatest: true
-
-        - script: |
-            npm install
-          workingDirectory: $(System.DefaultWorkingDirectory)
-          displayName: Install npm
 
         - script: npm ci
           displayName: Restore dependencies
@@ -107,7 +99,7 @@ stages:
                 path: $(Pipeline.Workspace)/drop
 
             - script: |
-                ls -l $(Pipeline.Workspace)/drop
+                unzip ls -l $(Pipeline.Workspace)/drop
               displayName: 'List downloaded artifacts'
 
             - task: AzureWebApp@1
@@ -118,7 +110,7 @@ stages:
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
                 package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-                startUpCommand: 'node server.js'
+                startUpCommand: 'npx serve -s'
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
@@ -129,7 +121,7 @@ stages:
                   url="https://$(DevWebAppName).azurewebsites.net"
                   echo "Checking if app is up at: $url"
 
-                  for i in {1..5}; do
+                  for i in {1..10}; do
                     response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
                     if [ "$response" == "200" ]; then
                       echo "✅ App is up and running!"
