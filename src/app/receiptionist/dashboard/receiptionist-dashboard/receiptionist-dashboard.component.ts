@@ -147,8 +147,16 @@ confirmDetailsForm = new FormGroup({
  // Close the "Take a Picture" modal
  closeSelfieModal(): void {
   this.isSelfieModalOpen = false;
-  this.capturedImage = null;
+  this.capturedImage = null;  // Clear captured image
+  this.webcamImage = null;     // Reset webcam image reference
+  this.showWebcam = false;     // Turn off webcam to ensure proper reset
+
+  // ✅ Small delay to ensure webcam fully resets before reopening
+  setTimeout(() => {
+    this.showWebcam = true;
+  }, 50);
 }
+
   closeConfirmModal(){
     this.isConfirmModalOpen = false;
   }

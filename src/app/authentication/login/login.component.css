@@ -10,8 +10,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  background: #f9f9f9;
   height: 100vh;
+  background-image: url("../../../assets/images/login-bg-image.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 10px;
 }
 
 .main {
@@ -36,7 +40,7 @@
 }
 
 .logo {
-  /* margin-bottom: 20px; */
+  margin-left: 30px;
 }
 
 .red-text {
