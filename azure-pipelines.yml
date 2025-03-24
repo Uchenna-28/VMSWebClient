@@ -88,8 +88,8 @@ stages:
         - task: PublishPipelineArtifact@1
           displayName: 'Publish Artifact to drop folder'
           inputs:
-            targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-            artifact: 'drop'
+            pathToPublish: 'dist/vms-project-web'
+            artifactName: 'drop'
 
         - script: |
             ls -l $(Build.ArtifactStagingDirectory)
@@ -110,14 +110,14 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: AzureCLI@2
-              displayName: 'Check Azure CLI Login'
-              inputs:
-                azureSubscription: $(azureSubscription)
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                  az account show
+            # - task: AzureCLI@2
+            #   displayName: 'Check Azure CLI Login'
+            #   inputs:
+            #     azureSubscription: $(azureSubscription)
+            #     scriptType: 'bash'
+            #     scriptLocation: 'inlineScript'
+            #     inlineScript: |
+            #       az account show
                   
             - task: DownloadPipelineArtifact@2
               inputs:
@@ -125,7 +125,7 @@ stages:
                 path: $(Pipeline.Workspace)/drop
 
             - script: |
-                ls -l $(Pipeline.Workspace)/drop
+                ls -l dist/vms-project-web
               displayName: 'List downloaded artifacts'
 
             - task: AzureWebApp@1
@@ -135,7 +135,7 @@ stages:
                 appType: webAppLinux
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
-                package: $(Pipeline.Workspace)/drop/dist/vms-project-web
+                package: $(Pipeline.Workspace)/drop
                 startUpCommand: 'node server.js'
 
             # - task: AzureCLI@2
