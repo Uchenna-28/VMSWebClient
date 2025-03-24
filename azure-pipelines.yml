@@ -135,7 +135,7 @@ stages:
                 appType: webAppLinux
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
-                package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                package: $(Pipeline.Workspace)/drop/dist/vms-project-web
                 startUpCommand: 'node server.js'
 
             # - task: AzureCLI@2
@@ -147,14 +147,14 @@ stages:
             #     inlineScript: |
             #       az webapp deployment list --name $(DevWebAppName) --resource-group VMS-DEV-RG --query "[0].status"
 
-            - task: AzureCLI@2
-              displayName: 'Fetch App Logs'
-              inputs:
-                azureSubscription: $(azureSubscription)
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                  az webapp log tail --name $(DevWebAppName) --resource-group VMS-DEV-RG
+            # - task: AzureCLI@2
+            #   displayName: 'Fetch App Logs'
+            #   inputs:
+            #     azureSubscription: $(azureSubscription)
+            #     scriptType: 'bash'
+            #     scriptLocation: 'inlineScript'
+            #     inlineScript: |
+            #       az webapp log tail --name $(DevWebAppName) --resource-group VMS-DEV-RG
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
