@@ -1,0 +1,36 @@
+<div class="input-wrapper" [style.width]="width"> 
+    <!-- Image inside the input -->
+    <app-image 
+      *ngIf="imageSrc"
+      [src]="imageSrc" 
+      [width]="'16px'" 
+      [height]="'16px'"
+      [borderRadius]="'50%'"
+      [color]="'red'"
+      [marginBottom]="'10px'"
+      class="input-icon"
+    >
+    </app-image>
+  
+    <!-- Input Field -->
+    <input
+      #inputField
+      [type]="inputType"
+      [value]="value"
+      [placeholder]="inputType === 'text' ? placeholder : ''"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (input)="onInput($event)"
+      [style.height]="height"
+      [style.fontSize]="fontSize"
+      [style.borderColor]="borderColor"
+      [style.borderRadius]="borderRadius"
+      [style.backgroundColor]="backgroundColor"
+      [style.color]="color"
+      [style.margin]="margin"
+      [disabled]="disabled"
+      [style.font-family]="fontFamily"
+      class="input-field"
+    />
+  </div>
+  

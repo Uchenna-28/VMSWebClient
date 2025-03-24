@@ -1,0 +1,247 @@
+/* Remove grid lines ONLY in Month view */
+:host ::ng-deep .fc-dayGridMonth-view .fc-scrollgrid {
+  border: none !important;
+}
+
+:host ::ng-deep .fc-dayGridMonth-view .fc-theme-standard td,
+:host ::ng-deep .fc-dayGridMonth-view .fc-theme-standard th {
+  border: none !important;
+}
+
+/* ✅ Ensure grid lines REMAIN in Week and Day views */
+:host ::ng-deep .fc-timeGridWeek-view .fc-scrollgrid,
+:host ::ng-deep .fc-timeGridDay-view .fc-scrollgrid {
+  border: 1px solid #ddd !important; /* Restoring grid lines */
+}
+
+:host ::ng-deep .fc-timeGridWeek-view .fc-theme-standard td,
+:host ::ng-deep .fc-timeGridWeek-view .fc-theme-standard th,
+:host ::ng-deep .fc-timeGridDay-view .fc-theme-standard td,
+:host ::ng-deep .fc-timeGridDay-view .fc-theme-standard th {
+  border: 1px solid #ddd !important;
+}
+
+/* 🔹 Ensure no conflicting styles */
+:host ::ng-deep .fc-theme-standard td, 
+:host ::ng-deep .fc-theme-standard th {
+  border: none !important; /* Remove all borders globally */
+}
+
+/* 🔹 Restore specific borders ONLY for Week and Day views */
+:host ::ng-deep .fc-timeGridWeek-view .fc-theme-standard td,
+:host ::ng-deep .fc-timeGridWeek-view .fc-theme-standard th,
+:host ::ng-deep .fc-timeGridDay-view .fc-theme-standard td,
+:host ::ng-deep .fc-timeGridDay-view .fc-theme-standard th {
+  border: 1px solid #ddd !important; /* Reapply borders */
+}
+
+/* Remove outer grid borders */
+.fc-theme-standard .fc-scrollgrid {
+  border: none !important;
+}
+
+/* Adjust table header styling */
+:host ::ng-deep .fc-theme-standard th .fc-col-header-cell-cushion {
+  font-family: Helvetica Neue LT Com !important;
+  font-weight: normal !important;
+  font-size: 12px !important;
+}
+
+/* Style calendar buttons */
+:host ::ng-deep .fc .fc-button-primary {
+  background-color: white !important;
+  border: 1px solid #ddd !important;
+  box-shadow: none !important;
+  color: black !important;
+}
+
+/* Adjust date number styling */
+:host ::ng-deep .fc-daygrid-day-number {
+  font-family: Helvetica Neue LT Com !important;
+  font-weight: normal !important;
+  font-size: 10px !important;
+}
+
+/* Apply blue background ONLY to the row where today's date is */
+:host ::ng-deep .fc-day-today.closest-tr {
+  background-color: #FBF3F3 !important;
+}
+
+/* Ensure only the row of today gets a background color */
+:host ::ng-deep .fc-daygrid-body tr {
+  position: relative;
+}
+
+:host ::ng-deep .fc-daygrid-body tr:has(.fc-day-today) {
+  background-color: blue !important; /* Only today's row */
+}
+
+/* Ensure no other rows are affected */
+:host ::ng-deep .fc-daygrid-body tr:not(:has(.fc-day-today)) {
+  background-color: transparent !important;
+}
+
+/* Center the title (Month & Year) */
+.fc-toolbar-title {
+  font-size: 18px;
+  font-family: Helvetica Neue LT Com !important;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Adjust calendar header */
+.fc-header-toolbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 10px 0 !important;
+}
+
+/* Remove background colors from all days */
+.fc-daygrid-day {
+  background: none !important;
+}
+
+/* Make today's date a red circle with white text */
+.fc-daygrid-day.fc-day-today {
+  background: none !important; /* Remove the default highlight */
+}
+
+.fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  color: #fff !important;
+  border-radius: 50% !important;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  font-weight: bold;
+  background-color: red !important;
+}
+
+/* Remove unnecessary padding */
+.fc .fc-daygrid-day-frame {
+  padding: 10px !important;
+}
+
+/* Ensure weekends have no special styling */
+.fc-day-sat, .fc-day-sun {
+  color: inherit !important;
+}
+
+/* Remove background, borders, and shadow for all FullCalendar buttons */
+.fc .fc-button {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: black !important;
+  font-size: 18px;
+  font-family: Helvetica Neue LT Com !important;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Style specific prev/next buttons */
+.fc-prev-button,
+.fc-next-button {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: black !important;
+  font-size: 18px !important;
+  font-family: Helvetica Neue LT Com !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 8px; /* Optional spacing between arrows and title */
+}
+
+/* Remove hover background */
+.fc .fc-button:hover,
+.fc-prev-button:hover,
+.fc-next-button:hover {
+  background: none !important;
+}
+
+/* Remove any active or focus effects */
+.fc .fc-button:focus,
+.fc-prev-button:focus,
+.fc-next-button:focus {
+  outline: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Make the entire row of today's date blue */
+:host ::ng-deep .fc-daygrid-body tr:has(.fc-day-today) {
+  background-color: #FBF3F3 !important; /* Only today's row */
+}
+
+/* Ensure no other rows are affected */
+:host ::ng-deep .fc-daygrid-body tr:not(:has(.fc-day-today)) {
+  background-color: transparent !important;
+}
+
+/* Keep the main cell background as blue like others */
+:host ::ng-deep .fc-daygrid-day.fc-day-today {
+  background: none !important;
+}
+
+/* Make today's date appear as a red circular badge */
+:host ::ng-deep .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  background-color: red !important;
+  color: white !important;
+  border-radius: 100% !important;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  font-weight: bold;
+  position: relative;
+}
+
+/* Reduce the height of calendar rows */
+:host ::ng-deep .fc-daygrid-body tr {
+  height: 25px !important; /* Reduced row height */
+}
+
+/* Reduce padding inside each cell to make rows more compact */
+:host ::ng-deep .fc-daygrid-day-frame {
+  padding: 3px !important; /* Adjusted for less spacing */
+}
+
+
+/* ✅ Remove grid lines ONLY in Month view */
+:host ::ng-deep .fc-dayGridMonth-view .fc-scrollgrid {
+  border: none !important;
+}
+
+:host ::ng-deep .fc-dayGridMonth-view .fc-theme-standard td,
+:host ::ng-deep .fc-dayGridMonth-view .fc-theme-standard th {
+  border: none !important;
+}
+
+/* ✅ Restore grid lines for Week and Day views */
+:host ::ng-deep .fc-timeGridWeek-view .fc-scrollgrid,
+:host ::ng-deep .fc-timeGridDay-view .fc-scrollgrid {
+  border: 1px solid #ddd !important;
+}
+
+:host ::ng-deep .fc-timeGridWeek-view .fc-theme-standard td,
+:host ::ng-deep .fc-timeGridWeek-view .fc-theme-standard th,
+:host ::ng-deep .fc-timeGridDay-view .fc-theme-standard td,
+:host ::ng-deep .fc-timeGridDay-view .fc-theme-standard th {
+  border: 1px solid #ddd !important;
+}
+
+/* 🔹 Fix unwanted border removal */
+:host ::ng-deep .fc-theme-standard td, 
+:host ::ng-deep .fc-theme-standard th {
+  border: 1px solid #ddd !important; /* Default borders restored */
+}
+
+/* 🔹 Remove grid lines in Month view ONLY */
+:host ::ng-deep .fc-dayGridMonth-view .fc-theme-standard td,
+:host ::ng-deep .fc-dayGridMonth-view .fc-theme-standard th {
+  border: none !important;
+}

@@ -1,0 +1,69 @@
+<form [formGroup]="editVisitorForm" (ngSubmit)="submitEdit()">
+  <app-input
+  label="Branch Name"
+  placeholder="Enter Full Name"
+  type="text"
+  [imageSrc]="'assets/images/pen.png'"
+  width="100%"
+  height="20px"
+  margin="0 0 10px 0"
+  fontFamily="Helvetica Neue LT Com"
+  formControlName="fullName"
+/>
+<app-input
+  label="Email"
+  placeholder="Enter Email"
+  type="email"
+  [imageSrc]="'assets/images/Email.png'"
+  width="100%"
+  height="20px"
+  margin="0 0 10px 0"
+  fontFamily="Helvetica Neue LT Com"
+  formControlName="email"
+/>
+<app-input
+  placeholder="Enter Phone Number"
+  type="text"
+  [imageSrc]="'assets/images/meeting room.png'"
+  width="100%"
+  height="20px"
+  margin="0 0 10px 0"
+  fontFamily="Helvetica Neue LT Com"
+  formControlName="phone"
+/>
+<app-select
+  placeholder="Select Gender"
+  [options]="genderOptions"
+  [imageSrc]="'assets/images/user.png'"
+  width="100%"
+  height="40px"
+  margin="0 0 10px 0"
+  fontFamily="Helvetica Neue LT Com"
+  formControlName="gender"
+>
+</app-select>
+<app-select
+  placeholder="Select Branch "
+  [options]="branchOptions"
+  [imageSrc]="'assets/images/category.png'"
+  width="100%"
+  height="40px"
+  margin="0 0 10px 0"
+  fontFamily="Helvetica Neue LT Com"
+  formControlName="branch"
+>
+</app-select>
+    <app-meeting-button
+      label="Save Changes"
+      icon="fas fa-save"
+      backgroundColor="#AB0E1E"
+      color="#ffffff"
+      width="100%"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="submit"
+    >
+    </app-meeting-button>
+  </form>

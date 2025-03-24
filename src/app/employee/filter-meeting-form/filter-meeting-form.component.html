@@ -1,0 +1,69 @@
+<form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
+    <app-date-time-input
+      placeholder="Start date"
+      type="date"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/calendar.png'"
+      formControlName="startDate">
+    </app-date-time-input>
+  
+    <app-date-time-input
+      placeholder="Time"
+      type="time"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/clock.png'"
+      formControlName="startTime">
+    </app-date-time-input>
+  
+    <app-date-time-input
+      placeholder="Time"
+      type="time"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/clock.png'"
+      formControlName="endTime">
+    </app-date-time-input>
+  
+    <app-select
+      placeholder="Select meeting room"
+      [options]="meetingRoomsOptions"
+      [imageSrc]="'assets/images/meeting room.png'"
+      width="100%"
+      height="40px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="meetingRoom">
+    </app-select>
+  
+    <app-select
+      placeholder="Sort by date"
+      [options]="sortOptions"
+      [imageSrc]="'assets/images/Sort.png'"
+      width="100%"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="sort">
+    </app-select>
+  
+    <app-meeting-button
+      label="Apply"
+      icon="fas fa-plus"
+      backgroundColor="#AB0E1E"
+      color="#ffffff"
+      width="100%"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="submit">
+    </app-meeting-button>
+  </form>
+  

@@ -1,0 +1,80 @@
+<div class="data-table">
+  <table>
+    <thead>
+      <tr>
+        <th *ngIf="enableCheckbox"><input type="checkbox" /></th>
+        <th *ngFor="let column of columns">{{ column }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let row of rows
+            | paginate : { itemsPerPage: 10, currentPage: currentPage }
+        "
+      >
+        <td *ngIf="enableCheckbox"><input type="checkbox" /></td>
+
+        <td *ngFor="let column of columns">
+          <ng-container [ngSwitch]="getType(row[column])">
+            <!-- Array handling -->
+            <!-- Array handling -->
+            <ng-container *ngSwitchCase="'array'">
+              <div class="array-items">
+                <span
+                  class="array-item"
+                  *ngFor="let item of row[column]; let last = last"
+                >
+                  <ng-container *ngIf="isObject(item); else primitiveItem">
+                    <span class="array-item"
+                      *ngFor="let key of objectKeys(item); let lastKey = last"
+                    >
+                      {{ item[key] }}<span *ngIf="!lastKey"> </span>
+                    </span>
+                  </ng-container>
+                  <ng-template #primitiveItem>
+                    {{ item }}
+                  </ng-template>
+                </span>
+              </div>
+            </ng-container>
+
+            <!-- Object handling -->
+            <ng-container *ngSwitchCase="'object'">
+              <div class="object-item">
+                <span
+                  *ngFor="let key of objectKeys(row[column]); let last = last"
+                >
+                  {{ row[column][key] }}<span *ngIf="!last"> </span>
+                </span>
+              </div>
+            </ng-container>
+
+            <!-- Primitive value -->
+            <ng-container *ngSwitchDefault>
+              {{ row[column] }}
+            </ng-container>
+          </ng-container>
+        </td>
+
+        <!-- Actions -->
+        <td class="actions">
+          <img
+            src="assets/images/Options.png"
+            alt="View"
+            class="action-image"
+            (click)="rowAction.emit({ row, action: 'view' })"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+  <pagination-controls
+    (pageChange)="onPageChange($event)"
+  ></pagination-controls>
+</div>
