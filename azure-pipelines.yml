@@ -138,14 +138,14 @@ stages:
                 package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
                 startUpCommand: 'node server.js'
 
-            - task: AzureCLI@2
-              displayName: 'Check deployment logs'
-              inputs:
-                azureSubscription: $(azureSubscription)
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                  az webapp deployment list --name $(DevWebAppName) --resource-group VMS-DEV-RG --query "[0].status"
+            # - task: AzureCLI@2
+            #   displayName: 'Check deployment logs'
+            #   inputs:
+            #     azureSubscription: $(azureSubscription)
+            #     scriptType: 'bash'
+            #     scriptLocation: 'inlineScript'
+            #     inlineScript: |
+            #       az webapp deployment list --name $(DevWebAppName) --resource-group VMS-DEV-RG --query "[0].status"
 
             - task: AzureCLI@2
               displayName: 'Fetch App Logs'
