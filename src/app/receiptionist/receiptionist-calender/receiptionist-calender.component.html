@@ -1,0 +1,25 @@
+<div class="main-content">
+  <div class="summary-cards">
+    <div class="mini-card">
+      <app-full-calender
+        [allowedViews]="['dayGridMonth']"
+        [initialView]="'dayGridMonth'"
+        [headerToolbar]="{ left: 'prev', center: 'title', right: 'next' }"
+        (dateClick)="onDateSelected($event)"
+      ></app-full-calender>
+    </div>
+
+    <!-- Second Calendar (Week & Day Views Only) -->
+    <div class="main-card">
+      <app-full-calender
+        #mainCalendar
+        [allowedViews]="['timeGridWeek', 'timeGridDay']"
+        [initialView]="'timeGridWeek'"
+        [headerToolbar]="{ left: 'prev,next', center: 'title', right: 'timeGridWeek,timeGridDay' }"
+      >
+      </app-full-calender>
+    </div>
+  </div>
+</div>
+  
+  

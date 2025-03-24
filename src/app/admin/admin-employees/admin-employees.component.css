@@ -1,0 +1,11 @@
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  margin: 2rem 0.2rem;
+}
+
+.table-buttons {
+  display: flex;
+  gap: 20px;
+}

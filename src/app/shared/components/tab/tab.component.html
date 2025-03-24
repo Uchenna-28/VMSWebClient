@@ -1,0 +1,12 @@
+<div class="tabs-section">
+  <div class="tabs">
+    <button
+      *ngFor="let tab of tabs"
+      class="tab"
+      [class.active]="tab === activeTab"
+      (click)="setActiveTab(tab)"
+    >
+      {{ tab }}
+    </button>
+  </div>
+</div>

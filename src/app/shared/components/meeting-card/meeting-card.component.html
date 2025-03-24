@@ -1,0 +1,19 @@
+<div class="meeting-card">
+  <div class="meeting-header">
+    <img src="assets/images/end time.png" alt="Clock Icon" class="icon" />
+    <div>
+      <h4>{{ meeting.title }}</h4>
+      <p>{{ meeting.date }} | {{ meeting.time }}</p>
+    </div>
+  </div>
+  <div class="meeting-footer">
+    <span>
+      <img src="assets/IconImages/participants 3.png" alt="Participants Icon" class="footer-icon" />
+      {{ meeting.participants }} participants
+    </span>
+    <span>
+      <img src="assets/IconImages/meeting room.png" alt="Location Icon" class="footer-icon" />
+      {{ meeting.location }}
+    </span>
+  </div>
+</div>

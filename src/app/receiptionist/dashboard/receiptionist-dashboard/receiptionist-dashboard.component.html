@@ -1,0 +1,280 @@
+<div class="main-content">
+  <!-- Profile and Stats -->
+  <div class="summary-cards">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="badge"><i></i> Receiptionist</div>
+      <div class="edit" (click)="onButtonEditClick()">✎</div>
+      <div class="avatar">
+        <img *ngIf="profileImage" [src]="profileImage" alt="Profile Image" />
+      </div>
+      
+      <div class="name">Kayode Gegele</div>
+      <div class="email">kayode.gegeleverraki.com</div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="summary">
+      <app-card
+        *ngFor="let card of summaryCards"
+        [title]="card.title"
+        [imageSrc]="card.imageSrc"
+        [value]="card.value"
+        [subtitle]="card.subtitle"
+        [cardWidth]="'270px'"
+        [cardHeight]="'120px'"
+        [iconSize]="30"
+        [iconColor]="'blue'"
+        [titleFontSize]="'18px'"
+        [valueFontSize]="'40px'"
+        [subtitleFontSize]="'14px'"
+      >
+      </app-card>
+    </div>
+    <div class="otp-card" (click)="onButtonClick()">
+      <div class="otp-icon">
+        <div class="">●●●</div>
+      </div>    
+      <p class="otp-text">Enter Meeting OTP</p>
+    </div>
+  </div>
+  <app-receiptionist-dashboard-tab></app-receiptionist-dashboard-tab>
+</div>
+<app-modal
+  [title]="'Enter One-Time Password (OTP)'"
+  [isVisible]="isAddMeetingModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="closeAddMeetingModal()"
+>
+  <form [formGroup]="scheduleMeetingForm" (ngSubmit)="submitMeeting()">
+    <app-input
+      label="Meeting title"
+      placeholder="Enter OTP code"
+      type="text"
+      [imageSrc]="'assets/images/passcode.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="otp"
+    ></app-input>
+    <!-- <p>Confirm Modal Open: {{ isConfirmModalOpen }}</p> -->
+    <app-meeting-button
+      label="Verify OTP"
+      icon="fas fa-eye"
+      backgroundColor="#AB0E1E"
+      color="#ffffff"
+      width="100%"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="submit"
+    ></app-meeting-button>
+  </form>
+</app-modal>
+
+<app-modal
+  [title]="'Confirm Details'"
+  [isVisible]="isConfirmModalOpen"
+  [width]="'1000px'"
+  [height]="'600px'"
+  [position]="'top'"
+  (close)="closeConfirmModal()"
+>
+  <div class="details-container">
+    <p>Meeting Details</p>
+    <div class="details-main">
+      <div class="detail-box" *ngFor="let detail of details">
+        <div class="detail-title">
+          <img [src]="detail.icon" alt="Detail Icon" class="detail-icon" />
+          <span>{{ detail.title }}</span>
+        </div>
+        <div>{{ detail.value }}</div>
+      </div>
+      
+    </div>
+  </div>
+  <form
+    class="form-class"
+    [formGroup]="confirmDetailsForm"
+    (ngSubmit)="confirmDetails()"
+  >
+    <app-input
+      label="Meeting title"
+      placeholder="Meeting title"
+      type="text"
+      [imageSrc]="'assets/images/pen.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="fullName"
+      backgroundColor="#FFFFFF"
+      [disabled]="true"
+    ></app-input>
+    <app-input
+      label="Meeting title"
+      placeholder="Meeting title"
+      type="text"
+      [imageSrc]="'assets/images/Email.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="email"
+      backgroundColor="#FFFFFF"
+      [disabled]="true"
+    ></app-input>
+    <app-input
+      label="Meeting title"
+      placeholder="Meeting title"
+      type="text"
+      [imageSrc]="'assets/images/phone.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="phone"
+      backgroundColor="#FFFFFF"
+      [disabled]="true"
+    ></app-input>
+    <app-checkbox
+      formControlName="approvalRequired"
+      id="approval"
+      label="By proceeding, I agree to allow the collection and use of my details in accordance with our Privacy Policy"
+    >
+    </app-checkbox>
+    <div class="btn-div">
+      <!-- Retake Button -->
+      <app-meeting-button
+        label="Edit"
+        backgroundColor="#243444"
+        borderRadius="8px"
+        color="#ffffff"
+        width="100%"
+      ></app-meeting-button>
+      <!-- Print Badge Button -->
+      <app-meeting-button
+        label="Confirm"
+        backgroundColor="#AB0E1E"
+        borderRadius="8px"
+        width="100%"
+        color="#ffffff"
+        type="submit"
+      ></app-meeting-button>
+    </div>
+  </form>
+</app-modal>
+
+<app-modal
+  [title]="'Take a Picture'"
+  [isVisible]="isSelfieModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  (close)="closeSelfieModal()"
+>
+  <div class="webcam-container">
+    <webcam
+      *ngIf="showWebcam"
+      (imageCapture)="handleImage($event)"
+      [trigger]="triggerObservable"
+    ></webcam>
+    <img *ngIf="capturedImage" [src]="capturedImage" class="captured-photo" />
+  </div>
+
+  <div class="btn-div">
+    <app-meeting-button
+      label="Cancel"
+      icon="fas fa-times"
+      backgroundColor="#243444"
+      borderRadius="8px"
+      color="#ffffff"
+      (click)="closeSelfieModal()"
+      width="100%"
+    ></app-meeting-button>
+
+    <app-meeting-button
+      label="Capture Image"
+      icon="fas fa-camera"
+      backgroundColor="#AB0E1E"
+      borderRadius="8px"
+      color="#ffffff"
+      width="100%"
+      (click)="captureAndOpenPrintBadge()"
+    ></app-meeting-button>
+  </div>
+</app-modal>
+
+<app-modal
+  [title]="'Print Badge'"
+  [isVisible]="isPrintBadgeModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  (close)="closePrintBadgeModal()"
+>
+  <div class="webcam-container">
+    <div class="badge-container">
+      <div class="badge-header">Andersen Consulting</div>
+      <div class="badge-content">
+        <div class="profile-image">
+          <!-- <img src="profile.jpg" alt="Profile" /> -->
+          <img
+            *ngIf="capturedImage"
+            [src]="capturedImage"
+            class="badge-photo"
+          />
+        </div>
+        <div class="details">
+          <p>Name: <span>John Doe</span></p>
+          <p>Who To See: <span>Jane Smith</span></p>
+          <p>Floor: <span>2nd Floor</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="badge-preview">
+    <img *ngIf="capturedImage" [src]="capturedImage" class="badge-photo" />
+    <p>Visitor Badge</p>
+  </div> -->
+
+  <div class="btn-div">
+    <!-- Retake Button -->
+    <app-meeting-button
+      label="Retake"
+      icon="fas fa-redo"
+      backgroundColor="#243444"
+      borderRadius="8px"
+      color="#ffffff"
+      width="100%"
+      (click)="retakeImage()"
+    ></app-meeting-button>
+
+    <!-- Print Badge Button -->
+    <app-meeting-button
+      label="Print Badge"
+      icon="fas fa-print"
+      backgroundColor="#AB0E1E"
+      borderRadius="8px"
+      width="100%"
+      color="#ffffff"
+      (click)="printBadge()"
+    ></app-meeting-button>
+  </div>
+</app-modal>
+
+<app-modal
+  [title]="'Edit Profile'"
+  [isVisible]="isEditProfileModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="closeEditProfileModal()"
+>
+  <app-edit-profile
+    (profileUpdated)="updateProfile($event)"
+    (closeModal)="isEditProfileModalOpen = false"
+  ></app-edit-profile>
+</app-modal>

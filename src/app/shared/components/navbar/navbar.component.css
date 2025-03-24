@@ -1,0 +1,49 @@
+.navbar {
+  position: fixed; /* Fix the navbar at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; 
+  background-color: white;
+  height: 50px;
+}
+
+.logo {
+  /* display: flex; */
+  /* align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold; */
+ 
+}
+.imgCont{
+  width:180px;
+  height:30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-button {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button.active {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+}
+
+.notification img {
+  width: 24px;
+}

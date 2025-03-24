@@ -1,0 +1,121 @@
+
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="container">
+  <div class="main">
+    <!-- 🔹 LOGIN FORM -->
+    <!-- 🔹 SIGN-UP FORM (First Section) -->
+    <!-- 🔹 SIGN-UP FORM (First Step) -->
+
+    <div class="div1">
+      <div class="logo">
+        <img
+        src="assets/images/newLogo-removebg-preview.png"
+          alt="Team Meeting"
+          class="logoImage"
+        />
+      </div>
+      <div class="login-section">
+        <div class="text-item">
+          <div *ngIf="stepIndex === 2" class="success-message">
+            <img
+              src="assets/images/newSucces.png"
+              alt="Success Icon"
+              class="thumbs-up"
+            />
+            <h1>{{ currentStep.title }}</h1>
+            <p>{{ currentStep.subtitle }}</p>
+          </div>
+          <div *ngIf="stepIndex !== 2">
+            <h1>{{ currentStep.title }}</h1>
+            <p>{{ currentStep.subtitle }}</p>
+          </div>
+        </div>
+
+        <form [formGroup]="authForm" (ngSubmit)="nextStep()">
+          <!-- If stepIndex is 2, show only the button (hide fields) -->
+          <div *ngIf="stepIndex === 2" class="">
+            <app-meeting-button
+              [label]="currentStep.buttonLabel"
+              backgroundColor="#AB0E1E"
+              color="white"
+              width="100%"
+              border="2px solid #E8E8E8"
+              fontFamily="Helvetica Neue LT Com"
+              fontSize="16px"
+              fontWeight="400"
+              [padding]="'10px 120px'"
+              borderRadius="8px"
+              type="submit"
+            >
+            </app-meeting-button>
+          </div>
+
+          <!-- If stepIndex is NOT 2, show the fields first, then the button -->
+          <div *ngIf="stepIndex !== 2">
+            <div *ngFor="let field of currentStep.fields">
+              <div class="input-group">
+                <!-- Left Icon -->
+                <img
+                  [src]="
+                    field.type === 'email'
+                      ? 'assets/images/Email.png'
+                      : field.type === 'password'
+                      ? 'assets/images/security.png'
+                      : 'assets/images/default-icon.png'
+                  "
+                  alt="Input Icon"
+                  class="email-icon"
+                  width="20"
+                  height="20"
+                />
+            
+                <!-- Password or Text Input -->
+                <input
+                  [type]="field.type === 'password' && !field.showPassword ? 'password' : 'text'"
+                  [formControlName]="field.control"
+                  [placeholder]="field.placeholder"
+                  required
+                />
+            
+                <!-- Show/Hide Toggle Icon (only for password fields) -->
+                <img
+                  *ngIf="field.type === 'password'"
+                  class="toggle-password"
+                  [src]="field.showPassword ? 'assets/images/eye-on.png' : 'assets/images/eye-off.png'"
+                  (click)="field.showPassword = !field.showPassword"
+                  alt="Toggle Password"
+                />
+              </div>
+            </div>
+            
+            <app-meeting-button
+              [label]="currentStep.buttonLabel"
+              backgroundColor="#AB0E1E"
+              color="white"
+              width="120%"
+              border="2px solid #E8E8E8"
+              fontFamily="Helvetica Neue LT Com"
+              fontSize="16px"
+              fontWeight="400"
+              borderRadius="8px"
+              type="submit"
+            >
+            </app-meeting-button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 🔹 THIRD SECTION (Nice Button) -->
+
+    <!-- 🔹 SIGN-IN FORM (Final Step) -->
+
+    <!-- <div class=""></div> -->
+    <div class="image-section">
+      <!-- <h2>yyy</h2> -->
+    </div>
+  </div>
+  <!-- Left Section: Login Form -->
+
+  <!-- Right Section: Image -->
+</div>

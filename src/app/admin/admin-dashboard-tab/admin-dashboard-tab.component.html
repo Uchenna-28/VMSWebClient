@@ -1,0 +1,22 @@
+<div class="main-control">
+    <app-tab [tabs]="tabsList" (tabChanged)="onTabChange($event)"></app-tab>
+    <ng-container *ngIf="activeTab === 'Todays Meetings'">
+        <app-admin-today-meeting></app-admin-today-meeting>
+      </ng-container>
+    
+      <ng-container *ngIf="activeTab === 'Visitors'">
+        <app-admin-visitors></app-admin-visitors>
+      </ng-container>
+      <ng-container *ngIf="activeTab === 'Meetings'">
+        <app-admin-dashboard-meeting></app-admin-dashboard-meeting>
+      </ng-container> 
+      <ng-container *ngIf="activeTab === 'Employees'">
+        <app-admin-employees></app-admin-employees>
+      </ng-container>
+      <ng-container *ngIf="activeTab === 'Meeting Invites'">
+        <app-admin-meeting-invites></app-admin-meeting-invites>
+      </ng-container>
+      <ng-container *ngIf="activeTab === 'Meeting Approvals'">
+        <app-admin-meeting-approvals></app-admin-meeting-approvals>
+      </ng-container>
+  </div>

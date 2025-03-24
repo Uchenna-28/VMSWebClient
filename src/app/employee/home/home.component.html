@@ -1,0 +1,13 @@
+<div class="main-content">
+    <app-tab [tabs]="tabsList" (tabChanged)="onTabChange($event)"></app-tab>
+    <ng-container *ngIf="activeTab === 'All Meetings'">
+        <app-all-meetings></app-all-meetings>
+      </ng-container>
+    
+      <ng-container *ngIf="activeTab === 'Upcoming Meetings'">
+        <app-upcoming-meetings></app-upcoming-meetings>
+      </ng-container> 
+      <ng-container *ngIf="activeTab === 'Past Meetings'">
+        <app-past-meetings></app-past-meetings>
+      </ng-container> 
+</div>

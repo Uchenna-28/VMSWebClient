@@ -1,0 +1,330 @@
+<div class="table-controls">
+  <app-search-input
+  [imageSrc]="'assets/images/search.png'"
+    [placeholder]="'Search for meetings...'"
+    (search)="handleSearch($event)"
+  >
+  </app-search-input>
+
+  <div class="table-buttons">
+    <app-meeting-button
+      label="Filter"
+      [imageSrc]="'assets/images/Filter.png'"
+      backgroundColor="#FFFFFF"
+      color="#000000"
+      width="128px"
+      border="2px solid #E8E8E8"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      (buttonClick)="openFilterModal()"
+      type="button"
+    >
+    </app-meeting-button>
+    <app-meeting-button
+      label="Cancel"
+      [imageSrc]="'assets/IconImages/delete.png'"
+      backgroundColor="#FFFFFF"
+      color="#F30824"
+      width="128px"
+      border="2px solid #E8E8E8"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+    >
+    </app-meeting-button>
+    <app-meeting-button
+      label="New Meeting"
+      [imageSrc]="'assets/WhiteIcons/calendar.png'"
+      backgroundColor="#243444"
+      color="#ffffff"
+      width="150px"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+      (buttonClick)="onButtonClick()"
+    >
+    </app-meeting-button>
+  </div>
+</div>
+
+<!-- Table -->
+<app-table
+  [columns]="columns"
+  [rows]="tableData"
+  [enableCheckbox]="true"
+  (rowAction)="onRowAction($event)"
+>
+</app-table>
+
+<!-- Button to Open Modal -->
+<!-- <button (click)="openModal()">Open Modal</button> -->
+
+<!-- Reusable Modal Component -->
+<app-modal
+  [title]="'Schedule a Meeting'"
+  [isVisible]="isAddMeetingModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="closeAddMeetingModal()"
+>
+  <form [formGroup]="scheduleMeetingForm" (ngSubmit)="submitMeeting()">
+    <app-input
+      label="Meeting title"
+      placeholder="Meeting title"
+      type="text"
+      [imageSrc]="'assets/images/pen.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="title"
+    ></app-input>
+
+    <app-textarea
+      [placeholder]="'Type your message...'"
+      [width]="'100%'"
+      [height]="'40px'"
+      [fontSize]="'16px'"
+      [borderRadius]="'8px'"
+      [backgroundColor]="'#f9f9f9'"
+      [color]="'#333'"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/list.png'"
+    ></app-textarea>
+    <app-date-time-input
+      placeholder="Start date"
+      type="date"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/calendar.png'"
+      formControlName="startDate"
+    />
+
+    <div class="time-div">
+      <app-date-time-input
+        placeholder="Time"
+        type="time"
+        width="100%"
+        height="20px"
+        margin="0 0 10px 0"
+        fontFamily="Helvetica Neue LT Com"
+        [imageSrc]="'assets/images/clock.png'"
+        formControlName="startTime"
+      />
+      <app-date-time-input
+        placeholder="Time"
+        type="time"
+        width="100%"
+        height="20px"
+        margin="0 0 10px 0"
+        fontFamily="Helvetica Neue LT Com"
+        [imageSrc]="'assets/images/clock.png'"
+        formControlName="endTime"
+      />
+    </div>
+    <app-select
+      placeholder="Select meeting room"
+      [options]="meetingRoomsOptions"
+      [imageSrc]="'assets/images/meeting room.png'"
+      width="100%"
+      height="40px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="meetingRoom"
+    >
+    </app-select>
+
+    <app-input
+      label="Enter participants name or email"
+      placeholder="Enter participants name or email"
+      type="text"
+      [imageSrc]="'assets/images/participants.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="participants"
+    ></app-input>
+
+    <app-meeting-button
+      label="Preview"
+      icon="fas fa-eye"
+      backgroundColor="#AB0E1E"
+      color="#ffffff"
+      width="100%"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="submit"
+    ></app-meeting-button>
+  </form>
+</app-modal>
+
+<app-modal
+  [title]="'Meeting Details'"
+  [isVisible]="isModalViewOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="closeViewModal()"
+>
+  <div class="header-actions">
+    <app-meeting-button
+      label="Edit"
+      [imageSrc]="'assets/images/pen.png'"
+      backgroundColor="#FFFFFF"
+      color="#000000"
+      width="128px"
+      border="2px solid #E8E8E8"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+      (buttonClick)="handleEditFromView()"
+    >
+    </app-meeting-button>
+    <app-meeting-button
+      label="Delete"
+      [imageSrc]="'assets/IconImages/delete.png'"
+      backgroundColor="#FFFFFF"
+      color="#F30824"
+      width="128px"
+      border="2px solid #E8E8E8"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+    >
+    </app-meeting-button>
+  </div>
+  <app-view-modal [record]="selectedRow"></app-view-modal>
+</app-modal>
+
+<app-modal
+  [title]="'Edit Scheduled Meeting'"
+  [isVisible]="isEditModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="closeEditModal()"
+>
+  <form [formGroup]="editMeetingForm" (ngSubmit)="submitEdit()">
+    <app-input
+      label="Meeting title"
+      placeholder="Meeting title"
+      type="text"
+      [imageSrc]="'assets/images/pen.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="title"
+    ></app-input>
+
+    <app-textarea
+      [placeholder]="'Type your message...'"
+      [width]="'100%'"
+      [height]="'40px'"
+      [fontSize]="'16px'"
+      [borderRadius]="'8px'"
+      [backgroundColor]="'#f9f9f9'"
+      [color]="'#333'"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/list.png'"
+    ></app-textarea>
+    <app-date-time-input
+      placeholder="Start date"
+      type="date"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      [imageSrc]="'assets/images/calendar.png'"
+      formControlName="startDate"
+    />
+
+    <div class="time-div">
+      <app-date-time-input
+        placeholder="Time"
+        type="time"
+        width="100%"
+        height="20px"
+        margin="0 0 10px 0"
+        fontFamily="Helvetica Neue LT Com"
+        [imageSrc]="'assets/images/clock.png'"
+        formControlName="startTime"
+      />
+      <app-date-time-input
+        placeholder="Time"
+        type="time"
+        width="100%"
+        height="20px"
+        margin="0 0 10px 0"
+        fontFamily="Helvetica Neue LT Com"
+        [imageSrc]="'assets/images/clock.png'"
+        formControlName="endTime"
+      />
+    </div>
+    <app-select
+      placeholder="Select meeting room"
+      [options]="meetingRoomsOptions"
+      [imageSrc]="'assets/images/meeting room.png'"
+      width="100%"
+      height="40px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="meetingRoom"
+    >
+    </app-select>
+
+    <app-input
+      label="Enter participants name or email"
+      placeholder="Enter participants name or email"
+      type="text"
+      [imageSrc]="'assets/images/participants.png'"
+      width="100%"
+      height="20px"
+      margin="0 0 10px 0"
+      fontFamily="Helvetica Neue LT Com"
+      formControlName="participants"
+    ></app-input>
+    <app-meeting-button
+      label="Save"
+      backgroundColor="#AB0E1E"
+      color="#ffffff"
+      width="100%"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="submit"
+    >
+    </app-meeting-button>
+  </form>
+</app-modal>
+
+<app-modal
+    [title]="'Filter Visitor'"
+    [isVisible]="isFilterModalOpen"
+    [width]="'1000px'"
+    [height]="'500px'"
+    [position]="'top'"
+    (close)="closeFilterModal()"
+  >
+    <app-filter-meeting-form
+    ></app-filter-meeting-form>
+  </app-modal>
