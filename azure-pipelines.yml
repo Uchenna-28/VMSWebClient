@@ -55,16 +55,16 @@ stages:
             versionSpec: '22.x'
             checkLatest: true
 
-        - script: |
-            npm install
-          workingDirectory: $(System.DefaultWorkingDirectory)
-          displayName: Install npm
+        # - script: |
+        #     npm install
+        #   workingDirectory: $(System.DefaultWorkingDirectory)
+        #   displayName: Install npm
 
         - script: npm ci
           displayName: Restore dependencies
 
-        - script: npm run build
-          displayName: Build Angular app
+        - script: npm run build -- --configuration=production
+          displayName: 'Build Angular App'
 
         # - script: npm run test
         #   displayName: Run unit tests
@@ -84,6 +84,9 @@ stages:
             archiveType: zip
             archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             replaceExistingArchive: true
+
+        - script: ls -l dist/
+          displayName: 'Check Dist Directory'
 
         - task: PublishPipelineArtifact@1
           displayName: 'Publish Artifact to drop folder'
