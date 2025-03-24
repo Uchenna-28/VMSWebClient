@@ -1,5 +1,12 @@
 trigger:
-  - main
+  branches:
+    exclude:
+      - main  # Prevents automatic build on merge to main
+
+pr:
+  branches:
+    include:
+      - '*'  # Ensures PRs are built before merging
 
 parameters:
   - name: environment
@@ -10,44 +17,34 @@ parameters:
       - Development
 
 variables:
-
-  # App Configuration Endpoints
   DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
-
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
   sonarcloudProjectKey: 'andersen-vms-ff564c1816d5b69e57'
   sonarcloudHost: 'https://sonarcloud.io/'
   SonarCloudToken: $(SonarCloudToken)
-
-  # Azure Storage Account (for artifact upload)
   storageAccountName: 'vmsdevfileserver'
   containerName: 'vmswebclient-deployemt-container'
-
-  # Web App Names
   DevWebAppName: 'vms-dev-webclient'
-
-  # Web App URLs
   dev-url: 'https://$(DevWebAppName).azurewebsites.net'
   poll-time: 30s
 
 stages:
 - stage: Build
-  displayName: Build
+  displayName: Build Angular App
   jobs:
     - job: BuildApp
       displayName: Build
       pool:
         vmImage: ubuntu-latest
-
       steps:
         - checkout: self
           clean: true
           fetchDepth: "0"
-          displayName: Checkout
+          displayName: Checkout Code
 
         - script: |
             git gc --prune=all && git repack -a -f -F -d
-          displayName: Cleanup old history
+          displayName: Cleanup Git History
 
         - task: NodeTool@0
           displayName: Install Node.js 22
@@ -55,57 +52,37 @@ stages:
             versionSpec: '22.x'
             checkLatest: true
 
-        # - script: |
-        #     npm install
-        #   workingDirectory: $(System.DefaultWorkingDirectory)
-        #   displayName: Install npm
-
         - script: npm ci
-          displayName: Restore dependencies
+          displayName: Restore Dependencies
 
         - script: npm run build -- --configuration=production
-          displayName: 'Build Angular App'
+          displayName: Build Angular App
 
-        # - script: npm run test
-        #   displayName: Run unit tests
-
-        # - script: npm run integration-test
-        #   displayName: Run integration tests
-
-        - script: |
-            mkdir -p $(Pipeline.Workspace)/drop
-          displayName: 'Create drop folder'
+        - script: mkdir -p $(Pipeline.Workspace)/drop
+          displayName: Create Drop Folder
 
         - task: ArchiveFiles@2
-          displayName: 'Archive files'
+          displayName: Archive Build Artifacts
           inputs:
-            rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+            rootFolderOrFile: 'dist/vms-project-web'
             includeRootFolder: false
             archiveType: zip
-            archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            archiveFile: $(Build.ArtifactStagingDirectory)/vms-webapp.zip
             replaceExistingArchive: true
 
-        - script: ls -l dist/
-          displayName: 'Check Dist Directory'
-
-        - task: PublishPipelineArtifact@1
-          displayName: 'Publish Artifact to drop folder'
+        - task: PublishBuildArtifacts@1
+          displayName: Publish Build Artifact
           inputs:
-            pathToPublish: 'dist/vms-project-web'
+            pathToPublish: $(Build.ArtifactStagingDirectory)/vms-webapp.zip
             artifactName: 'drop'
 
-        - script: |
-            ls -l $(Build.ArtifactStagingDirectory)
-          displayName: 'Verify artifact in Build'
-
-
 - stage: Deploy
-  displayName: Development
-  dependsOn: Build
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq('${{parameters.environment}}', 'Development'))
+  displayName: Deploy to Azure App Service
+  dependsOn: []
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   jobs:
     - deployment: DeployApp
-      displayName: Deploy to Development
+      displayName: Deploy to Dev Environment
       environment: Development
       pool:
         vmImage: 'ubuntu-latest'
@@ -113,23 +90,14 @@ stages:
         runOnce:
           deploy:
             steps:
-            # - task: AzureCLI@2
-            #   displayName: 'Check Azure CLI Login'
-            #   inputs:
-            #     azureSubscription: $(azureSubscription)
-            #     scriptType: 'bash'
-            #     scriptLocation: 'inlineScript'
-            #     inlineScript: |
-            #       az account show
-                  
-            - task: DownloadPipelineArtifact@2
+            - task: DownloadBuildArtifacts@0
+              displayName: Download Build Artifact
               inputs:
-                artifact: 'drop'
-                path: $(Pipeline.Workspace)/drop
+                artifactName: 'drop'
+                downloadPath: $(Pipeline.Workspace)/drop
 
-            - script: |
-                ls -l dist/vms-project-web
-              displayName: 'List downloaded artifacts'
+            - script: ls -l $(Pipeline.Workspace)/drop
+              displayName: Verify Downloaded Artifacts
 
             - task: AzureWebApp@1
               displayName: Deploy to Azure App Service
@@ -138,38 +106,20 @@ stages:
                 appType: webAppLinux
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
-                package: $(Pipeline.Workspace)/drop
+                package: $(Pipeline.Workspace)/drop/vms-webapp.zip
                 startUpCommand: 'node server.js'
 
-            # - task: AzureCLI@2
-            #   displayName: 'Check deployment logs'
-            #   inputs:
-            #     azureSubscription: $(azureSubscription)
-            #     scriptType: 'bash'
-            #     scriptLocation: 'inlineScript'
-            #     inlineScript: |
-            #       az webapp deployment list --name $(DevWebAppName) --resource-group VMS-DEV-RG --query "[0].status"
-
-            # - task: AzureCLI@2
-            #   displayName: 'Fetch App Logs'
-            #   inputs:
-            #     azureSubscription: $(azureSubscription)
-            #     scriptType: 'bash'
-            #     scriptLocation: 'inlineScript'
-            #     inlineScript: |
-            #       az webapp log tail --name $(DevWebAppName) --resource-group VMS-DEV-RG
-
             - task: CmdLine@2
-              displayName: "Confirm site is up"
+              displayName: Confirm Site is Up
               inputs:
                 script: |
-                  sleep 60 # Increased initial sleep time
+                  sleep 60 # Wait for deployment
 
                   url="https://$(DevWebAppName).azurewebsites.net"
                   echo "Checking if app is up at: $url"
 
                   for i in {1..5}; do
-                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
+                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k)
                     if [ "$response" == "200" ]; then
                       echo "✅ App is up and running!"
                       exit 0
@@ -182,16 +132,3 @@ stages:
                   echo "❌ Deployment failed, app is not responding!"
                   exit 1
                 failOnStderr: true
-
-- stage: Cleanup
-  displayName: "Cleanup"
-  jobs:
-  - job: CleanupJob
-    displayName: "Cleanup Resources"
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: |
-        echo "Cleaning up workspace..."
-        rm -rf $(Pipeline.Workspace)
-      displayName: "Cleanup Build Artifacts"
