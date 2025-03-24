@@ -1,8 +1,0 @@
-<button 
-  class="signin-btn"
-  [ngStyle]="{'background-color': bgColor, 'color': textColor}" 
-  (click)="onClick()">
-  
-  <span *ngIf="isLoading">🔄 Loading...</span>
-  <span *ngIf="!isLoading">{{ label }}</span>
-</button>
