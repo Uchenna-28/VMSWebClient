@@ -1,0 +1,9 @@
+<div class="table-controls">
+    <p>Today</p>
+  </div>
+  <app-meeting-invites-card
+    *ngFor="let meeting of upcomingmeetings"
+    [meeting]="meeting"
+    (click)="openMeetingDetails(meeting)"
+  ></app-meeting-invites-card>
+

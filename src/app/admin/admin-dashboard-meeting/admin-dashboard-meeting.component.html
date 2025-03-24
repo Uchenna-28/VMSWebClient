@@ -1,0 +1,126 @@
+<div class="table-controls">
+    <app-search-input
+    [imageSrc]="'assets/images/search.png'"
+    [placeholder]="'Search'"
+    (search)="handleSearch($event)"
+  >
+  </app-search-input> 
+  <div class="table-buttons">
+    <app-meeting-button
+      label="Filter"
+      icon="fas fa-plus"
+      backgroundColor="#FFFFFF"
+      color="#000000"
+      width="128px"
+      border="2px solid #E8E8E8"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+      (buttonClick)="openFilterModal()"
+    >
+    </app-meeting-button>
+    <app-meeting-button
+      label="Cancel"
+      [imageSrc]="'assets/IconImages/delete.png'"
+      backgroundColor="#FFFFFF"
+      color="#F30824"
+      width="128px"
+      border="2px solid #E8E8E8"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+    >
+    </app-meeting-button>
+    <app-meeting-button
+      label="New Meeting"
+      [imageSrc]="'assets/WhiteIcons/calendar.png'"
+      backgroundColor="#243444"
+      color="#ffffff"
+      width="150px"
+      fontFamily="Helvetica Neue LT Com"
+      fontSize="16px"
+      fontWeight="400"
+      borderRadius="8px"
+      type="button"
+      (buttonClick)="onButtonClick()"
+    >
+    </app-meeting-button>
+  </div> 
+</div>
+
+<app-table
+  [columns]="columns"
+  [rows]="tableData"
+  [enableCheckbox]="true"
+  (rowAction)="onRowAction($event)"
+>
+</app-table>
+<app-modal
+  [title]="'Edit Meeting'"
+  [isVisible]="isEditModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="closeEditModal()"
+>
+  <app-edit-meeting
+    [selectedMeeting]="selectedMeeting"
+    (meetingUpdated)="updateMeeting($event)"
+    (closeEdit)="closeEditModal()"
+  ></app-edit-meeting>
+</app-modal>
+
+<!-- View Meeting Modal -->
+<app-modal
+  [title]="'Meeting Details'"
+  [isVisible]="isViewModalOpen"
+  [width]="'1000px'"
+  [height]="'500px'"
+  [position]="'top'"
+  (close)="isViewModalOpen = false"
+>
+  <app-view-meeting-details
+    [selectedRow]="selectedMeeting"
+    (closeModal)="isViewModalOpen = false"
+    (editMeeting)="editMeetingFromView($event)"
+    (deleteMeeting)="openDeleteModal($event)"
+  ></app-view-meeting-details>
+</app-modal>
+
+<!-- Delete Confirmation Modal (Small) -->
+<app-modal
+  [title]="'Cancel'"
+  [isVisible]="isDeleteModalOpen"
+  [width]="'400px'"
+  [height]="'200px'"
+  [position]="'center'"
+  (close)="closeDeleteModal()"
+>
+  <p>Are you sure you want to cancel this meeting?</p>
+    <app-meeting-button
+      label="Delete"
+      backgroundColor="#AB0E1E"
+      color="#ffffff"
+      width="100%"
+      (buttonClick)="confirmDelete()"
+    ></app-meeting-button>
+</app-modal>
+
+  <!-- Filter Modal -->
+  <app-modal
+    [title]="'Filter Meetings'"
+    [isVisible]="isFilterModalOpen"
+    [width]="'1000px'"
+    [height]="'500px'"
+    [position]="'top'"
+    (close)="closeFilterModal()"
+  >
+    <app-filter-form
+      (applyFilters)="applyFilters($event)"
+      (resetFilters)="resetFilters()"
+    ></app-filter-form>
+  </app-modal>

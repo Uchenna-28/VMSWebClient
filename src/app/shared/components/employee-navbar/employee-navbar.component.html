@@ -1,0 +1,29 @@
+<div class="navbar">
+    <div class="logo">
+      <img src="assets/images/newLogo.png" class="imgCont" alt="Logo" />
+    </div>
+    <div class="nav-links">
+      <button 
+        (click)="navigate('/employee/layout/dashboard')" 
+        [class.active]="isActive('/employee/layout/dashboard')" 
+        class="nav-button">
+        Dashboard
+      </button>
+      <button 
+        (click)="navigate('/employee/layout/meetings')" 
+        [class.active]="isActive('/employee/layout/meetings')" 
+        class="nav-button">
+        Meetings
+      </button>
+      <button 
+        (click)="navigate('/employee/layout/calender')" 
+        [class.active]="isActive('/employee/layout/calender')" 
+        class="nav-button">
+        Calendar
+      </button>
+    </div>
+    <div class="notification">
+      <img src="assets/images/back.png" alt="Notification" />
+    </div>
+  </div>
+  
