@@ -93,11 +93,6 @@ stages:
         runOnce:
           deploy:
             steps:
-            # - task: DownloadPipelineArtifact@2
-            #   inputs:
-            #     artifact: 'drop'
-            #     path: $(Pipeline.Workspace)/drop
-
             - script: |
                 ls -l $(Pipeline.Workspace)/drop
               displayName: 'List downloaded artifacts'
@@ -109,8 +104,8 @@ stages:
                 appType: webAppLinux
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
-                package: $(Pipeline.Workspace)/drop
-                startUpCommand: 'npx serve -s dist/vms-project-web'
+                package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                startUpCommand: 'npm start'
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
