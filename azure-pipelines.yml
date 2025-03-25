@@ -62,7 +62,6 @@ stages:
             ls -l $(System.DefaultWorkingDirectory)/dist/vms-project-web
           displayName: 'Verify Build Output'
 
-
         # - script: |
         #     mkdir -p $(Pipeline.Workspace)/drop
         #   displayName: 'Create drop folder'
@@ -121,7 +120,7 @@ stages:
             #   displayName: 'List downloaded artifacts'
 
             - script: |
-                ls -l $(Pipeline.Workspace)/artifact
+                ls -l $(Pipeline.Workspace)/artifact/
               displayName: 'Verify Downloaded Artifact'
 
             # - task: AzureWebApp@1
@@ -142,7 +141,7 @@ stages:
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
                 package: '$(Pipeline.Workspace)/artifact/$(Build.BuildId).zip'
-                startUpCommand: 'node dist/vms-project-web/server.js'
+                startUpCommand: 'node server.js'
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
