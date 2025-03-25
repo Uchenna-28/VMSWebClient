@@ -1,110 +1,277 @@
-trigger:
-  - main
+# trigger:
+#   - main
 
-parameters:
-  - name: environment
-    displayName: Which environment do you want to deploy to?
-    type: string
-    default: 'Development'
-    values:
-      - Development
+# parameters:
+#   - name: environment
+#     displayName: Which environment do you want to deploy to?
+#     type: string
+#     default: 'Development'
+#     values:
+#       - Development
+
+# variables:
+
+#   # App Configuration Endpoints
+#   DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
+
+#   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
+
+#   # Azure Storage Account (for artifact upload)
+#   storageAccountName: 'vmsdevfileserver'
+#   containerName: 'vmswebclient-deployemt-container'
+
+#   # Web App Names
+#   DevWebAppName: 'vms-dev-webclient'
+
+#   # Web App URLs
+#   dev-url: 'https://$(DevWebAppName).azurewebsites.net'
+#   poll-time: 30s
+
+# stages:
+# - stage: Build
+#   displayName: Build
+#   jobs:
+#     - job: BuildApp
+#       displayName: Build
+#       pool:
+#         vmImage: ubuntu-latest
+
+#       steps:
+#         - checkout: self
+#           clean: true
+#           fetchDepth: "0"
+#           displayName: Checkout
+
+#         - script: |
+#             git gc --prune=all && git repack -a -f -F -d
+#           displayName: Cleanup old history
+
+#         - task: NodeTool@0
+#           displayName: Install Node.js 22
+#           inputs:
+#             versionSpec: '22.x'
+#             checkLatest: true
+
+#         - script: npm ci
+#           displayName: Restore dependencies
+
+#         - script: npm run build -- --configuration=production
+#           displayName: 'Build Angular App'
+
+#         - script: |
+#             ls -l $(System.DefaultWorkingDirectory)/dist/vms-project-web
+#           displayName: 'Verify Build Output'
+
+#         # - script: |
+#         #     mkdir -p $(Pipeline.Workspace)/drop
+#         #   displayName: 'Create drop folder'
+
+#         # - task: ArchiveFiles@2
+#         #   displayName: 'Archive files'
+#         #   inputs:
+#         #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+#         #     includeRootFolder: false
+#         #     archiveType: zip
+#         #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+#         #     replaceExistingArchive: true
+
+#         - task: ArchiveFiles@2
+#           displayName: 'Archive files'
+#           inputs:
+#             rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/vms-project-web'
+#             includeRootFolder: false
+#             archiveType: zip
+#             archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#             replaceExistingArchive: true
+
+#         - task: PublishPipelineArtifact@1
+#           displayName: 'Publish Artifact'
+#           inputs:
+#             targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#             artifact: 'build-artifact'
+
+#         - script: |
+#             ls -l $(Build.ArtifactStagingDirectory)
+#           displayName: 'Verify artifact in Build'
+
+
+# - stage: Deploy
+#   displayName: Development
+#   dependsOn: Build
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq('${{parameters.environment}}', 'Development'))
+#   jobs:
+#     - deployment: DeployApp
+#       displayName: Deploy to Development
+#       environment: Development
+#       pool:
+#         vmImage: 'ubuntu-latest'
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#             - task: DownloadPipelineArtifact@2
+#               displayName: 'Download Build Artifact'
+#               inputs:
+#                 artifact: 'build-artifact'
+#                 path: '$(Pipeline.Workspace)/artifact/'
+
+#             # - script: |
+#             #     ls -l $(Pipeline.Workspace)/drop
+#             #   displayName: 'List downloaded artifacts'
+
+#             - script: |
+#                 ls -l $(Pipeline.Workspace)/artifact/
+#               displayName: 'Verify Downloaded Artifact'
+
+#             # - task: AzureWebApp@1
+#             #   displayName: Deploy to Azure App Service
+#             #   inputs:
+#             #     azureSubscription: $(azureSubscription)
+#             #     appType: webAppLinux
+#             #     appName: $(DevWebAppName)
+#             #     runtimeStack: 'NODE|22LTS'
+#             #     package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+#             #     startUpCommand: 'npm start'
+
+#             - task: AzureWebApp@1
+#               displayName: Deploy to Azure App Service
+#               inputs:
+#                 azureSubscription: $(azureSubscription)
+#                 appType: webAppLinux
+#                 appName: $(DevWebAppName)
+#                 runtimeStack: 'NODE|22LTS'
+#                 package: '$(Pipeline.Workspace)/artifact/$(Build.BuildId).zip'
+#                 startUpCommand: 'node server.js'
+
+#             - task: CmdLine@2
+#               displayName: "Confirm site is up"
+#               inputs:
+#                 script: |
+#                   sleep 60 # Increased initial sleep time
+
+#                   url="https://$(DevWebAppName).azurewebsites.net"
+#                   echo "Checking if app is up at: $url"
+
+#                   for i in {1..10}; do
+#                     response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
+#                     if [ "$response" == "200" ]; then
+#                       echo "✅ App is up and running!"
+#                       exit 0
+#                     fi
+
+#                     echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
+#                     sleep 15
+#                   done
+
+#                   echo "❌ Deployment failed, app is not responding!"
+#                   exit 1
+#                 failOnStderr: true
+
+
+
+
+
+
+
+
+
+
+trigger:
+  - main  # Runs only when code is merged into main
+
+pr:
+  branches:
+    include:
+      - main  # Runs the build when a PR is raised to main
 
 variables:
-
-  # App Configuration Endpoints
-  DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
-
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
-
-  # Azure Storage Account (for artifact upload)
-  storageAccountName: 'vmsdevfileserver'
-  containerName: 'vmswebclient-deployemt-container'
-
-  # Web App Names
-  DevWebAppName: 'vms-dev-webclient'
-
-  # Web App URLs
-  dev-url: 'https://$(DevWebAppName).azurewebsites.net'
-  poll-time: 30s
+  webAppName: 'vms-dev-webclient'
+  angularBuildFolder: 'dist/vms-project-web'  # Adjust this based on your Angular output folder
 
 stages:
-- stage: Build
-  displayName: Build
+- stage: PR_Validation
+  displayName: 'Validate PR Build'
+  condition: eq(variables['Build.Reason'], 'PullRequest')  # Runs only for PRs
   jobs:
-    - job: BuildApp
-      displayName: Build
+    - job: ValidateBuild
+      displayName: 'Build Angular for PR'
       pool:
         vmImage: ubuntu-latest
 
       steps:
         - checkout: self
           clean: true
-          fetchDepth: "0"
-          displayName: Checkout
-
-        - script: |
-            git gc --prune=all && git repack -a -f -F -d
-          displayName: Cleanup old history
+          fetchDepth: 0
+          displayName: 'Checkout Code'
 
         - task: NodeTool@0
-          displayName: Install Node.js 22
+          displayName: 'Install Node.js'
           inputs:
             versionSpec: '22.x'
             checkLatest: true
 
         - script: npm ci
-          displayName: Restore dependencies
+          displayName: 'Install Dependencies'
 
         - script: npm run build -- --configuration=production
           displayName: 'Build Angular App'
 
-        - script: |
-            ls -l $(System.DefaultWorkingDirectory)/dist/vms-project-web
+        - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
           displayName: 'Verify Build Output'
 
-        # - script: |
-        #     mkdir -p $(Pipeline.Workspace)/drop
-        #   displayName: 'Create drop folder'
+- stage: BuildAndDeploy
+  displayName: 'Build & Deploy to Azure'
+  dependsOn: []
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+    - job: BuildApp
+      displayName: 'Build Angular for Deployment'
+      pool:
+        vmImage: ubuntu-latest
 
-        # - task: ArchiveFiles@2
-        #   displayName: 'Archive files'
-        #   inputs:
-        #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        #     includeRootFolder: false
-        #     archiveType: zip
-        #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        #     replaceExistingArchive: true
+      steps:
+        - checkout: self
+          clean: true
+          fetchDepth: 0
+          displayName: 'Checkout Code'
+
+        - task: NodeTool@0
+          displayName: 'Install Node.js'
+          inputs:
+            versionSpec: '22.x'
+            checkLatest: true
+
+        - script: npm ci
+          displayName: 'Install Dependencies'
+
+        - script: npm run build -- --configuration=production
+          displayName: 'Build Angular App'
+
+        - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
+          displayName: 'Verify Build Output'
 
         - task: ArchiveFiles@2
-          displayName: 'Archive files'
+          displayName: 'Archive build for deployment'
           inputs:
-            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/vms-project-web'
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/$(angularBuildFolder)'
             includeRootFolder: false
-            archiveType: zip
-            archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
             replaceExistingArchive: true
 
         - task: PublishPipelineArtifact@1
-          displayName: 'Publish Artifact'
+          displayName: 'Publish Build Artifact'
           inputs:
-            targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-            artifact: 'build-artifact'
+            targetPath: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
+            artifact: 'angular-artifact'
 
-        - script: |
-            ls -l $(Build.ArtifactStagingDirectory)
-          displayName: 'Verify artifact in Build'
-
-
-- stage: Deploy
-  displayName: Development
-  dependsOn: Build
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq('${{parameters.environment}}', 'Development'))
-  jobs:
-    - deployment: DeployApp
-      displayName: Deploy to Development
-      environment: Development
+    - deployment: DeployToWebApp
+      displayName: 'Deploy to Azure App Service'
+      environment: 'Development'
       pool:
         vmImage: 'ubuntu-latest'
+      dependsOn: BuildApp
       strategy:
         runOnce:
           deploy:
@@ -112,57 +279,16 @@ stages:
             - task: DownloadPipelineArtifact@2
               displayName: 'Download Build Artifact'
               inputs:
-                artifact: 'build-artifact'
+                artifact: 'angular-artifact'
                 path: '$(Pipeline.Workspace)/artifact/'
 
-            # - script: |
-            #     ls -l $(Pipeline.Workspace)/drop
-            #   displayName: 'List downloaded artifacts'
-
-            - script: |
-                ls -l $(Pipeline.Workspace)/artifact/
+            - script: ls -l $(Pipeline.Workspace)/artifact/
               displayName: 'Verify Downloaded Artifact'
 
-            # - task: AzureWebApp@1
-            #   displayName: Deploy to Azure App Service
-            #   inputs:
-            #     azureSubscription: $(azureSubscription)
-            #     appType: webAppLinux
-            #     appName: $(DevWebAppName)
-            #     runtimeStack: 'NODE|22LTS'
-            #     package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-            #     startUpCommand: 'npm start'
-
             - task: AzureWebApp@1
-              displayName: Deploy to Azure App Service
+              displayName: 'Deploy to Azure App Service'
               inputs:
                 azureSubscription: $(azureSubscription)
-                appType: webAppLinux
-                appName: $(DevWebAppName)
-                runtimeStack: 'NODE|22LTS'
-                package: '$(Pipeline.Workspace)/artifact/$(Build.BuildId).zip'
-                startUpCommand: 'node server.js'
-
-            - task: CmdLine@2
-              displayName: "Confirm site is up"
-              inputs:
-                script: |
-                  sleep 60 # Increased initial sleep time
-
-                  url="https://$(DevWebAppName).azurewebsites.net"
-                  echo "Checking if app is up at: $url"
-
-                  for i in {1..10}; do
-                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
-                    if [ "$response" == "200" ]; then
-                      echo "✅ App is up and running!"
-                      exit 0
-                    fi
-
-                    echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
-                    sleep 15
-                  done
-
-                  echo "❌ Deployment failed, app is not responding!"
-                  exit 1
-                failOnStderr: true
+                appName: $(webAppName)
+                package: '$(Pipeline.Workspace)/artifact/angular-app.zip'
+                deploymentMethod: 'zipDeploy'
