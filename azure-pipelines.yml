@@ -81,10 +81,10 @@ stages:
             replaceExistingArchive: true
 
         - task: PublishPipelineArtifact@1
-          displayName: 'Publish Artifact to drop folder'
+          displayName: 'Publish Artifact'
           inputs:
             targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-            artifact: 'drop'
+            artifact: 'build-artifact'
 
         - script: |
             ls -l $(Build.ArtifactStagingDirectory)
@@ -137,7 +137,7 @@ stages:
                 appName: $(DevWebAppName)
                 runtimeStack: 'NODE|22LTS'
                 package: '$(Pipeline.Workspace)/build-artifact/$(Build.BuildId).zip'
-                startUpCommand: 'npx serve -s'
+                startUpCommand: 'npm start'
 
             - task: CmdLine@2
               displayName: "Confirm site is up"
