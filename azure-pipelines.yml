@@ -1,0 +1,137 @@
+trigger:
+  - main
+
+parameters:
+  - name: environment
+    displayName: Which environment do you want to deploy to?
+    type: string
+    default: 'Development'
+    values:
+      - Development
+
+variables:
+
+  # App Configuration Endpoints
+  DevAppConfigurationEndpoint: 'https://dev-app-config.azconfig.io'
+
+  azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
+
+  # Azure Storage Account (for artifact upload)
+  storageAccountName: 'vmsdevfileserver'
+  containerName: 'vmswebclient-deployemt-container'
+
+  # Web App Names
+  DevWebAppName: 'vms-dev-webclient'
+
+  # Web App URLs
+  dev-url: 'https://$(DevWebAppName).azurewebsites.net'
+  poll-time: 30s
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+    - job: BuildApp
+      displayName: Build
+      pool:
+        vmImage: ubuntu-latest
+
+      steps:
+        - checkout: self
+          clean: true
+          fetchDepth: "0"
+          displayName: Checkout
+
+        - script: |
+            git gc --prune=all && git repack -a -f -F -d
+          displayName: Cleanup old history
+
+        - task: NodeTool@0
+          displayName: Install Node.js 22
+          inputs:
+            versionSpec: '22.x'
+            checkLatest: true
+
+        - script: npm ci
+          displayName: Restore dependencies
+
+        - script: |
+            mkdir -p $(Pipeline.Workspace)/drop
+          displayName: 'Create drop folder'
+
+        - task: ArchiveFiles@2
+          displayName: 'Archive files'
+          inputs:
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+            includeRootFolder: false
+            archiveType: zip
+            archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            replaceExistingArchive: true
+
+        - task: PublishPipelineArtifact@1
+          displayName: 'Publish Artifact to drop folder'
+          inputs:
+            targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+            artifact: 'drop'
+
+        - script: |
+            ls -l $(Build.ArtifactStagingDirectory)
+          displayName: 'Verify artifact in Build'
+
+
+- stage: Deploy
+  displayName: Development
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq('${{parameters.environment}}', 'Development'))
+  jobs:
+    - deployment: DeployApp
+      displayName: Deploy to Development
+      environment: Development
+      pool:
+        vmImage: 'ubuntu-latest'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                artifact: 'drop'
+                path: $(Pipeline.Workspace)/drop
+
+            - script: |
+                unzip ls -l $(Pipeline.Workspace)/drop
+              displayName: 'List downloaded artifacts'
+
+            - task: AzureWebApp@1
+              displayName: Deploy to Azure App Service
+              inputs:
+                azureSubscription: $(azureSubscription)
+                appType: webAppLinux
+                appName: $(DevWebAppName)
+                runtimeStack: 'NODE|22LTS'
+                package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                startUpCommand: 'npx serve -s'
+
+            - task: CmdLine@2
+              displayName: "Confirm site is up"
+              inputs:
+                script: |
+                  sleep 60 # Increased initial sleep time
+
+                  url="https://$(DevWebAppName).azurewebsites.net"
+                  echo "Checking if app is up at: $url"
+
+                  for i in {1..10}; do
+                    response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
+                    if [ "$response" == "200" ]; then
+                      echo "✅ App is up and running!"
+                      exit 0
+                    fi
+
+                    echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
+                    sleep 15
+                  done
+
+                  echo "❌ Deployment failed, app is not responding!"
+                  exit 1
+                failOnStderr: true
