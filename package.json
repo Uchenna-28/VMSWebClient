@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "mkdir -p dist/vms-project-web",
+    "prebuild": "powershell -Command \"New-Item -ItemType Directory -Path dist/vms-project-web -Force\"",
     "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
