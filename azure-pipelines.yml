@@ -245,7 +245,7 @@ stages:
         - script: npm ci
           displayName: 'Install Dependencies'
 
-        - script: npm run build -- --configuration=production
+        - script: npm run build -- --configuration=production  --output-path=dist/vms-project-web
           displayName: 'Build Angular App'
 
         - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
@@ -285,6 +285,9 @@ stages:
             - script: ls -l $(Pipeline.Workspace)/artifact/
               displayName: 'Verify Downloaded Artifact'
 
+            - script: ls -l dist/vms-project-web
+              displayName: 'Verify Build Output'
+
             - task: AzureWebApp@1
               displayName: 'Deploy to Azure App Service'
               inputs:
@@ -292,3 +295,27 @@ stages:
                 appName: $(webAppName)
                 package: '$(Pipeline.Workspace)/artifact/angular-app.zip'
                 deploymentMethod: 'zipDeploy'
+
+            - task: CmdLine@2
+              displayName: "Confirm site is up"
+              inputs:
+                  script: |
+                    sleep 60 # Increased initial sleep time
+  
+                    url="https://$(DevWebAppName).azurewebsites.net"
+                    echo "Checking if app is up at: $url"
+  
+                    for i in {1..5}; do
+                      response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
+                      if [ "$response" == "200" ]; then
+                        echo "✅ App is up and running!"
+                        exit 0
+                      fi
+  
+                      echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
+                      sleep 15
+                    done
+  
+                    echo "❌ Deployment failed, app is not responding!"
+                    exit 1
+                  failOnStderr: true
