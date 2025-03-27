@@ -52,8 +52,8 @@ export class LoginComponent {
       ]
     },
     {
-      title: 'Success',
-      subtitle: 'Set a new password for your account.',
+      title: 'Success!',
+      subtitle: 'Your Password has been changed successfully.',
       buttonLabel: 'Sign In',
       fields: []
     },
@@ -84,7 +84,7 @@ export class LoginComponent {
     if (this.stepIndex === 1) {
       const { password, confirmPassword } = this.authForm.value;
       if (password !== confirmPassword) {
-        alert('Passwords do not match!');
+        // alert('Passwords do not match!');
         return;
       }
     }
