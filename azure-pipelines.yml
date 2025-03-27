@@ -187,7 +187,7 @@ pr:
 variables:
   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
   webAppName: 'vms-dev-webclient'
-  angularBuildFolder: 'dist/vms-project-web'  # Adjust this based on your Angular output folder
+  angularBuildFolder: 'dist/vms-project-web'
 
 stages:
 - stage: PR_Validation
@@ -245,7 +245,7 @@ stages:
         - script: npm ci
           displayName: 'Install Dependencies'
 
-        - script: npm run build -- --configuration=production  --output-path=dist/vms-project-web
+        - script: npm run build -- --configuration=production  --output-path=dist/vms-project-web || exit 1
           displayName: 'Build Angular App'
 
         - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
@@ -259,6 +259,9 @@ stages:
             archiveType: 'zip'
             archiveFile: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
             replaceExistingArchive: true
+
+        - script: unzip -l $(Build.ArtifactStagingDirectory)/angular-app.zip
+          displayName: 'List Contents of Deployment Zip'
 
         - task: PublishPipelineArtifact@1
           displayName: 'Publish Build Artifact'
@@ -285,7 +288,7 @@ stages:
             - script: ls -l $(Pipeline.Workspace)/artifact/
               displayName: 'Verify Downloaded Artifact'
 
-            - script: ls -l dist/vms-project-web
+            - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
               displayName: 'Verify Build Output'
 
             - task: AzureWebApp@1
