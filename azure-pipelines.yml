@@ -395,12 +395,14 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadBuildArtifacts@0
+          - task: DownloadPipelineArtifact@2
             displayName: 'Download Build Artifacts'
             inputs:
-              buildType: 'current'
               artifactName: 'drop'
-              downloadPath: '$(Pipeline.Workspace)'
+              downloadPath: '$(Pipeline.Workspace)/drop'
+
+          - script: ls -R $(Pipeline.Workspace)
+            displayName: 'Debug: List Pipeline Workspace'            
           
           # - task: AzureWebApp@1
           #   displayName: Deploy to Development
