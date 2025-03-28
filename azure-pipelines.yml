@@ -421,7 +421,8 @@ stages:
               azureSubscription: $(azureSubscription)
               appName: $(webAppName)
               #packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              packageForLinux: '/home/vsts/work/1/drop/$(Build.BuildId).zip'
+              #packageForLinux: '/home/vsts/work/1/drop/**/*.zip'
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip' # string. Required. Package or folder. Default: $(System.DefaultWorkingDirectory)/**/*.zip.
               deploymentMethod: 'zipDeploy'              
               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
 
