@@ -46,44 +46,44 @@ stages:
       artifact: drop
       displayName: Publish Build Artifact
 
-- stage: Deploy_Development
-  displayName: Deploy to Development
-  dependsOn: Build
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy to Development
-    environment: Development
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download Build Artifacts'
-            inputs:
-              artifactName: 'drop'
-              downloadPath: '$(Pipeline.Workspace)/drop'
+# - stage: Deploy_Development
+#   displayName: Deploy to Development
+#   dependsOn: Build
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+#   jobs:
+#   - deployment: Deploy
+#     displayName: Deploy to Development
+#     environment: Development
+#     pool:
+#       vmImage: $(vmImageName)
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: DownloadPipelineArtifact@2
+#             displayName: 'Download Build Artifacts'
+#             inputs:
+#               artifactName: 'drop'
+#               downloadPath: '$(Pipeline.Workspace)/drop'
 
-          - script: ls -R $(Pipeline.Workspace)
-            displayName: 'Debug: List Pipeline Workspace'
+#           - script: ls -R $(Pipeline.Workspace)
+#             displayName: 'Debug: List Pipeline Workspace'
 
-          - task: AzureWebApp@1
-            displayName: 'Deploy to Development'
-            inputs:
-              azureSubscription: $(azureSubscription)
-              appName: $(webAppName)
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              #packageForLinux: '/home/vsts/work/1/drop/**/*.zip'
-              deploymentMethod: 'zipDeploy'              
-              startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
+#           - task: AzureWebApp@1
+#             displayName: 'Deploy to Development'
+#             inputs:
+#               azureSubscription: $(azureSubscription)
+#               appName: $(webAppName)
+#               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+#               #packageForLinux: '/home/vsts/work/1/drop/**/*.zip'
+#               deploymentMethod: 'zipDeploy'              
+#               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
 
-          - task: CmdLine@2
-            displayName: Confirm Deployment
-            inputs:
-              script: 'curl -sSf $(dev-url) > /dev/null'
-              failOnStderr: true
+#           - task: CmdLine@2
+#             displayName: Confirm Deployment
+#             inputs:
+#               script: 'curl -sSf $(dev-url) > /dev/null'
+#               failOnStderr: true
 
 
 # - stage: Deploy_Staging
