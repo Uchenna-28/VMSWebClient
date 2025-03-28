@@ -176,149 +176,300 @@
 
 
 
-trigger:
-  - main  # Runs only when code is merged into main
+# trigger:
+#   - main  # Runs only when code is merged into main
 
-pr:
-  branches:
-    include:
-      - main  # Runs the build when a PR is raised to main
+# pr:
+#   branches:
+#     include:
+#       - main  # Runs the build when a PR is raised to main
+
+# variables:
+#   azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
+#   webAppName: 'vms-dev-webclient'
+#   angularBuildFolder: 'dist/vms-project-web'
+
+# stages:
+# - stage: PR_Validation
+#   displayName: 'Validate PR Build'
+#   condition: eq(variables['Build.Reason'], 'PullRequest')  # Runs only for PRs
+#   jobs:
+#     - job: ValidateBuild
+#       displayName: 'Build Angular for PR'
+#       pool:
+#         vmImage: ubuntu-latest
+
+#       steps:
+#         - checkout: self
+#           clean: true
+#           fetchDepth: 0
+#           displayName: 'Checkout Code'
+
+#         - task: NodeTool@0
+#           displayName: 'Install Node.js'
+#           inputs:
+#             versionSpec: '22.x'
+#             checkLatest: true
+
+#         - script: npm ci
+#           displayName: 'Install Dependencies'
+
+#         - script: npm run build -- --configuration=production
+#           displayName: 'Build Angular App'
+
+#         - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
+#           displayName: 'Verify Build Output'
+
+# - stage: BuildAndDeploy
+#   displayName: 'Build & Deploy to Azure'
+#   dependsOn: []
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+#   jobs:
+#     - job: BuildApp
+#       displayName: 'Build Angular for Deployment'
+#       pool:
+#         vmImage: ubuntu-latest
+
+#       steps:
+#         - checkout: self
+#           clean: true
+#           fetchDepth: 0
+#           displayName: 'Checkout Code'
+
+#         - task: NodeTool@0
+#           displayName: 'Install Node.js'
+#           inputs:
+#             versionSpec: '22.x'
+#             checkLatest: true
+
+#         - script: npm ci
+#           displayName: 'Install Dependencies'
+
+#         - script: npm run build -- --configuration=production  --output-path=dist/vms-project-web || exit 1
+#           displayName: 'Build Angular App'
+
+#         - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
+#           displayName: 'Verify Build Output'
+
+#         - task: ArchiveFiles@2
+#           displayName: 'Archive build for deployment'
+#           inputs:
+#             rootFolderOrFile: '$(System.DefaultWorkingDirectory)/$(angularBuildFolder)'
+#             includeRootFolder: false
+#             archiveType: 'zip'
+#             archiveFile: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
+#             replaceExistingArchive: true
+
+#         - script: unzip -l $(Build.ArtifactStagingDirectory)/angular-app.zip
+#           displayName: 'List Contents of Deployment Zip'
+
+#         - task: PublishPipelineArtifact@1
+#           displayName: 'Publish Build Artifact'
+#           inputs:
+#             targetPath: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
+#             artifact: 'angular-artifact'
+
+#     - deployment: DeployToWebApp
+#       displayName: 'Deploy to Azure App Service'
+#       environment: 'Development'
+#       pool:
+#         vmImage: 'ubuntu-latest'
+#       dependsOn: BuildApp
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#             - task: DownloadPipelineArtifact@2
+#               displayName: 'Download Build Artifact'
+#               inputs:
+#                 artifact: 'angular-artifact'
+#                 path: '$(Pipeline.Workspace)/artifact/'
+
+#             - script: ls -l $(Pipeline.Workspace)/artifact/
+#               displayName: 'Verify Downloaded Artifact'
+
+#             - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
+#               displayName: 'Verify Build Output'
+
+#             - task: AzureWebApp@1
+#               displayName: 'Deploy to Azure App Service'
+#               inputs:
+#                 azureSubscription: $(azureSubscription)
+#                 appName: $(webAppName)
+#                 package: '$(Pipeline.Workspace)/artifact/angular-app.zip'
+#                 deploymentMethod: 'zipDeploy'
+
+#             - task: CmdLine@2
+#               displayName: "Confirm site is up"
+#               inputs:
+#                   script: |
+#                     sleep 60 # Increased initial sleep time
+  
+#                     url="https://$(DevWebAppName).azurewebsites.net"
+#                     echo "Checking if app is up at: $url"
+  
+#                     for i in {1..5}; do
+#                       response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
+#                       if [ "$response" == "200" ]; then
+#                         echo "✅ App is up and running!"
+#                         exit 0
+#                       fi
+  
+#                       echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
+#                       sleep 15
+#                     done
+  
+#                     echo "❌ Deployment failed, app is not responding!"
+#                     exit 1
+#                   failOnStderr: true
+
+
+
+
+
+
+
+
+
+
+
+trigger:
+- main
+
+resources:
+  - repo: self
 
 variables:
-  azureSubscription: '722dfaac-093c-4648-b497-7114f90a8c3b'
+  azureSubscription: 'VMS ARM SC NRG'
   webAppName: 'vms-dev-webclient'
-  angularBuildFolder: 'dist/vms-project-web'
+  vmImageName: 'ubuntu-latest'
+  dev-url: https://vms-dev-webclientt.azurewebsites.net
+  #staging-url: https://vms-stg-webclient.azurewebsites.net
+  #prod-url: https://vms-prd-webclient.azurewebsites.net
 
 stages:
-- stage: PR_Validation
-  displayName: 'Validate PR Build'
-  condition: eq(variables['Build.Reason'], 'PullRequest')  # Runs only for PRs
+- stage: Build
+  displayName: Build Angular App
   jobs:
-    - job: ValidateBuild
-      displayName: 'Build Angular for PR'
-      pool:
-        vmImage: ubuntu-latest
+  - job: Build
+    displayName: Build Angular App
+    pool:
+      vmImage: $(vmImageName)
 
-      steps:
-        - checkout: self
-          clean: true
-          fetchDepth: 0
-          displayName: 'Checkout Code'
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '22.x'
 
-        - task: NodeTool@0
-          displayName: 'Install Node.js'
-          inputs:
-            versionSpec: '22.x'
-            checkLatest: true
+    - script: npm install
+      displayName: Install npm packages
 
-        - script: npm ci
-          displayName: 'Install Dependencies'
+    - script: npm run build --if-present
+      displayName: Build Angular project
 
-        - script: npm run build -- --configuration=production
-          displayName: 'Build Angular App'
+    - task: ArchiveFiles@2
+      displayName: 'Archive Build Output'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
 
-        - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
-          displayName: 'Verify Build Output'
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      artifact: drop
+      displayName: Publish Build Artifact
 
-- stage: BuildAndDeploy
-  displayName: 'Build & Deploy to Azure'
-  dependsOn: []
+- stage: Deploy_Development
+  displayName: Deploy to Development
+  dependsOn: Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   jobs:
-    - job: BuildApp
-      displayName: 'Build Angular for Deployment'
-      pool:
-        vmImage: ubuntu-latest
+  - deployment: Deploy
+    displayName: Deploy to Development
+    environment: Development
+    pool:
+      vmImage: $(vmImageName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: Deploy to Development
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: $(azureSubscription)
+              ResourceGroupName: 'development'
+              appType: 'webApp'
+              WebAppName: $(webAppName)
+              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
 
-      steps:
-        - checkout: self
-          clean: true
-          fetchDepth: 0
-          displayName: 'Checkout Code'
+          - task: CmdLine@2
+            displayName: Confirm Deployment
+            inputs:
+              script: 'curl -sSf $(dev-url) > /dev/null'
+              failOnStderr: true
 
-        - task: NodeTool@0
-          displayName: 'Install Node.js'
-          inputs:
-            versionSpec: '22.x'
-            checkLatest: true
+# - stage: Deploy_Staging
+#   displayName: Deploy to Staging
+#   dependsOn: Deploy_Development
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+#   jobs:
+#   - deployment: Deploy
+#     displayName: Deploy to Staging
+#     environment: Staging
+#     pool:
+#       vmImage: $(vmImageName)
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureWebApp@1
+#             displayName: Deploy to Staging
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: $(azureSubscription)
+#               ResourceGroupName: 'staging'
+#               appType: 'webApp'
+#               WebAppName: $(webAppName)
+#               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+#               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
 
-        - script: npm ci
-          displayName: 'Install Dependencies'
+#           - task: CmdLine@2
+#             displayName: Confirm Deployment
+#             inputs:
+#               script: 'curl -sSf $(staging-url) > /dev/null'
+#               failOnStderr: true
 
-        - script: npm run build -- --configuration=production  --output-path=dist/vms-project-web || exit 1
-          displayName: 'Build Angular App'
+# - stage: Deploy_Production
+#   displayName: Deploy to Production
+#   dependsOn: Deploy_Staging
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+#   jobs:
+#   - deployment: Deploy
+#     displayName: Deploy to Production
+#     environment: Production
+#     pool:
+#       vmImage: $(vmImageName)
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: AzureWebApp@1
+#             displayName: Deploy to Production
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: $(azureSubscription)
+#               ResourceGroupName: 'production'
+#               appType: 'webApp'
+#               WebAppName: $(webAppName)
+#               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+#               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
 
-        - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
-          displayName: 'Verify Build Output'
-
-        - task: ArchiveFiles@2
-          displayName: 'Archive build for deployment'
-          inputs:
-            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/$(angularBuildFolder)'
-            includeRootFolder: false
-            archiveType: 'zip'
-            archiveFile: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
-            replaceExistingArchive: true
-
-        - script: unzip -l $(Build.ArtifactStagingDirectory)/angular-app.zip
-          displayName: 'List Contents of Deployment Zip'
-
-        - task: PublishPipelineArtifact@1
-          displayName: 'Publish Build Artifact'
-          inputs:
-            targetPath: '$(Build.ArtifactStagingDirectory)/angular-app.zip'
-            artifact: 'angular-artifact'
-
-    - deployment: DeployToWebApp
-      displayName: 'Deploy to Azure App Service'
-      environment: 'Development'
-      pool:
-        vmImage: 'ubuntu-latest'
-      dependsOn: BuildApp
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - task: DownloadPipelineArtifact@2
-              displayName: 'Download Build Artifact'
-              inputs:
-                artifact: 'angular-artifact'
-                path: '$(Pipeline.Workspace)/artifact/'
-
-            - script: ls -l $(Pipeline.Workspace)/artifact/
-              displayName: 'Verify Downloaded Artifact'
-
-            - script: ls -l $(System.DefaultWorkingDirectory)/$(angularBuildFolder)
-              displayName: 'Verify Build Output'
-
-            - task: AzureWebApp@1
-              displayName: 'Deploy to Azure App Service'
-              inputs:
-                azureSubscription: $(azureSubscription)
-                appName: $(webAppName)
-                package: '$(Pipeline.Workspace)/artifact/angular-app.zip'
-                deploymentMethod: 'zipDeploy'
-
-            - task: CmdLine@2
-              displayName: "Confirm site is up"
-              inputs:
-                  script: |
-                    sleep 60 # Increased initial sleep time
-  
-                    url="https://$(DevWebAppName).azurewebsites.net"
-                    echo "Checking if app is up at: $url"
-  
-                    for i in {1..5}; do
-                      response=$(curl -s -o /dev/null -w "%{http_code}" "$url" -k) #Added -k to ignore certificate issues.
-                      if [ "$response" == "200" ]; then
-                        echo "✅ App is up and running!"
-                        exit 0
-                      fi
-  
-                      echo "⏳ Attempt $i: App not yet available (HTTP $response), retrying in 10s..."
-                      sleep 15
-                    done
-  
-                    echo "❌ Deployment failed, app is not responding!"
-                    exit 1
-                  failOnStderr: true
+#           - task: CmdLine@2
+#             displayName: Confirm Deployment
+#             inputs:
+#               script: 'curl -sSf $(prod-url) > /dev/null'
+#               failOnStderr: true
