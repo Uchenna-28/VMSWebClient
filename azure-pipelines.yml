@@ -60,11 +60,12 @@ stages:
       runOnce:
         deploy:
           steps:
-          # - task: DownloadPipelineArtifact@2
-          #   displayName: 'Download Build Artifacts'
-          #   inputs:
-          #     artifactName: 'drop'
-          #     downloadPath: '$(Pipeline.Workspace)/drop'
+          - download: none
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download Build Artifacts'
+            inputs:
+              artifactName: 'drop'
+              downloadPath: '$(Pipeline.Workspace)/drop'
 
           - script: ls -R $(Pipeline.Workspace)
             displayName: 'Debug: List Pipeline Workspace'
