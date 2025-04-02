@@ -8,7 +8,8 @@ variables:
   azureSubscription: 'VMS ARM SC NRG'
   webAppName: 'vms-dev-webclient'
   vmImageName: 'ubuntu-latest'
-  dev-url: https://vms-dev-webclientt.azurewebsites.net
+  angularBuildFolder: 'dist/vms-project'  # Ensure this matches your actual build output
+  dev-url: https://vms-dev-webclient.azurewebsites.net
   
 stages:
 - stage: Build
@@ -28,7 +29,7 @@ stages:
     - script: npm install
       displayName: Install npm packages
   
-    - script: npm run build --if-present
+    - script: npm run build -- --configuration=production
       displayName: Build Angular project
   
     - task: ArchiveFiles@2
@@ -78,7 +79,7 @@ stages:
               #packageForLinux: '/home/vsts/work/1/drop/$(Build.BuildId).zip'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               deploymentMethod: 'zipDeploy'              
-              startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
+              startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project --spa --no-daemon'
   
           - task: CmdLine@2
             displayName: Confirm Deployment
