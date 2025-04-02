@@ -1,17 +1,15 @@
 trigger:
-- main
-
+ - main
+  
 resources:
   - repo: self
-
+  
 variables:
   azureSubscription: 'VMS ARM SC NRG'
   webAppName: 'vms-dev-webclient'
   vmImageName: 'ubuntu-latest'
-  dev-url: https://vms-dev-webclient.azurewebsites.net
-  #staging-url: https://vms-stg-webclient.azurewebsites.net
-  #prod-url: https://vms-prd-webclient.azurewebsites.net
-
+  dev-url: https://vms-dev-webclientt.azurewebsites.net
+  
 stages:
 - stage: Build
   displayName: Build Angular App
@@ -20,19 +18,19 @@ stages:
     displayName: Build Angular App
     pool:
       vmImage: $(vmImageName)
-
+  
     steps:
     - task: NodeTool@0
       displayName: 'Install Node.js'
       inputs:
         versionSpec: '22.x'
-
+  
     - script: npm install
       displayName: Install npm packages
-
+  
     - script: npm run build --if-present
       displayName: Build Angular project
-
+  
     - task: ArchiveFiles@2
       displayName: 'Archive Build Output'
       inputs:
@@ -41,11 +39,11 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
-
+  
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
       displayName: Publish Build Artifact
-
+  
 - stage: Deploy_Development
   displayName: Deploy to Development
   dependsOn: Build
@@ -60,92 +58,29 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: none
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download Build Artifacts'
-            inputs:
-              artifactName: 'drop'
-              downloadPath: '$(Pipeline.Workspace)/drop'
-
+          # - task: DownloadPipelineArtifact@2
+          #   displayName: 'Download Build Artifacts'
+          #   inputs:
+          #     artifactName: 'drop'
+          #     downloadPath: '$(Pipeline.Workspace)/drop'
+  
           - script: ls -R $(Pipeline.Workspace)
             displayName: 'Debug: List Pipeline Workspace'
-
+  
           - task: AzureWebApp@1
             displayName: 'Deploy to Development'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
+              #packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              #packageForLinux: '/home/vsts/work/1/drop/$(Build.BuildId).zip'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              #packageForLinux: '/home/vsts/work/1/drop/**/*.zip'
               deploymentMethod: 'zipDeploy'              
               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
-
+  
           - task: CmdLine@2
             displayName: Confirm Deployment
             inputs:
               script: 'curl -sSf $(dev-url) > /dev/null'
-              failOnStderr: true
-
-
-# - stage: Deploy_Staging
-#   displayName: Deploy to Staging
-#   dependsOn: Deploy_Development
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-#   jobs:
-#   - deployment: Deploy
-#     displayName: Deploy to Staging
-#     environment: Staging
-#     pool:
-#       vmImage: $(vmImageName)
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: AzureWebApp@1
-#             displayName: Deploy to Staging
-#             inputs:
-#               ConnectionType: 'AzureRM'
-#               azureSubscription: $(azureSubscription)
-#               ResourceGroupName: 'staging'
-#               appType: 'webApp'
-#               WebAppName: $(webAppName)
-#               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-#               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
-
-#           - task: CmdLine@2
-#             displayName: Confirm Deployment
-#             inputs:
-#               script: 'curl -sSf $(staging-url) > /dev/null'
-#               failOnStderr: true
-
-# - stage: Deploy_Production
-#   displayName: Deploy to Production
-#   dependsOn: Deploy_Staging
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-#   jobs:
-#   - deployment: Deploy
-#     displayName: Deploy to Production
-#     environment: Production
-#     pool:
-#       vmImage: $(vmImageName)
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: AzureWebApp@1
-#             displayName: Deploy to Production
-#             inputs:
-#               ConnectionType: 'AzureRM'
-#               azureSubscription: $(azureSubscription)
-#               ResourceGroupName: 'production'
-#               appType: 'webApp'
-#               WebAppName: $(webAppName)
-#               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-#               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
-
-#           - task: CmdLine@2
-#             displayName: Confirm Deployment
-#             inputs:
-#               script: 'curl -sSf $(prod-url) > /dev/null'
-#               failOnStderr: true
+              failOnStderr: true`
