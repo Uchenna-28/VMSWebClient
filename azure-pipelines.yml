@@ -23,7 +23,7 @@ stages:
     - task: NodeTool@0
       displayName: 'Install Node.js'
       inputs:
-        versionSpec: '22.x'
+        versionSpec: '20.x'
   
     - script: npm install
       displayName: Install npm packages
@@ -84,4 +84,4 @@ stages:
             displayName: Confirm Deployment
             inputs:
               script: 'curl -sSf $(dev-url) > /dev/null'
-              failOnStderr: true`
+              failOnStderr: true
