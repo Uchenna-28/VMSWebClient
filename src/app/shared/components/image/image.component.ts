@@ -13,7 +13,7 @@ export class ImageComponent {
   @Input() alt: string = 'Image'; // Alternative text for accessibility
   @Input() width: string = '50px'; // Image width
   @Input() height: string = '50px'; // Image height
-  @Input() borderRadius: string = '8px'; // Border radius for rounded images
+  @Input() borderRadius: string = ''; // Border radius for rounded images
   @Input() objectFit: string = 'cover'; // Image fit style (cover, contain, etc.)
   @Input() color: string = 'transparent';
   @Input() marginBottom: string = '0px'; // ✅ Custom margin-top

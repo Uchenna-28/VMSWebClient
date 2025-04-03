@@ -2,42 +2,42 @@
     <app-select
       placeholder="Select Category"
       [options]="categoryOptions"
-      [imageSrc]="'assets/images/user.png'"
+      [imageSrc]="'assets/svgimages/user.svg'"
       width="100%"
       height="40px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="category"
     >
     </app-select>
     <app-select
       placeholder="Select Gender"
       [options]="genderOptions"
-      [imageSrc]="'assets/images/user.png'"
+      [imageSrc]="'assets/svgimages/user.svg'"
       width="100%"
       height="40px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="gender"
     >
     </app-select>
+    <div class="space-bottom">
     <app-select
     placeholder="Sort by date"
     [options]="sortOptions"
-    [imageSrc]="'assets/images/Sort.png'"
+    [imageSrc]="'assets/svgimages/Sort.svg'"
     width="100%"
+    height="40px"
     margin="0 0 10px 0"
-    fontFamily="Helvetica Neue LT Com"
     formControlName="sort"
   >
-  </app-select>
+  </app-select>      
+</div>
+
     <app-meeting-button
       label="Apply"
       icon="fas fa-plus"
       backgroundColor="#AB0E1E"
       color="#ffffff"
       width="100%"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"

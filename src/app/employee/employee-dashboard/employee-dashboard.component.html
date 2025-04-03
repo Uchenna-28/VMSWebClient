@@ -3,18 +3,32 @@
     <div class="summary-cards">
       <!-- Profile Card -->
       <div class="profile-card">
-        <div class="badge"><i></i> Employee</div>
-          <img 
-          src="assets/images/pen.png" 
-          alt="Edit" 
-          class="edit-icon" 
-          (click)="onButtonEditClick()" 
-        />      
-        <div class="avatar">
-          <img *ngIf="profileImage" [src]="profileImage" alt="Profile Image" />
-        </div>
-        <div class="name">Kayode Gegele</div>
-        <div class="email">kayode.gegeleverraki.com</div>
+        <div class="profile-wrap">
+          <div class="top-class">
+            <div class="badge">
+              <img src="assets/svgimages/person.svg" alt="" class="badge-icon">
+              <p>
+                Employee
+              </p>
+            </div>
+            <!-- <div class="edit" (click)="onButtonEditClick()">✎</div> -->
+            <button (click)="onButtonEditClick()" class="more-button">
+              <!-- Inline SVG for MoreVertical icon -->
+              <svg class="more-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="19" r="1" />
+              </svg>
+            </button>
+           </div>
+      
+            <div class="avatar">
+              <img *ngIf="profileImage" [src]="profileImage" alt="Profile Image" />
+            </div>
+            
+            <div class="name">Kayode Gegele</div>
+            <div class="email">kayode.gegeleverraki.com</div>
+         </div>
       </div>
       
   
@@ -26,8 +40,12 @@
           [title]="card.title"
           [value]="card.value"
           [subtitle]="card.subtitle"
-          [cardWidth]="'240px'"
-          [cardHeight]="'110px'"
+          [cardWidth]="'100%'"
+          [cardHeight]="'125px'"
+          [iconSize]="24"
+        [titleFontSize]="'15px'"
+        [valueFontSize]="'30px'"
+        [subtitleFontSize]="'12px'"
         >
         </app-card>
       </div>

@@ -1,10 +1,14 @@
+.data-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 500px; 
+}
 .data-table table {
-  width: 99%;
+  width: 100%;
   border-collapse: collapse;
   background-color: white;
-  /* border-radius: 10px; */
   overflow: hidden;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
 }
 
 .data-table th, .data-table td {
@@ -13,24 +17,35 @@
   border-bottom: 1px solid #ddd;
 }
 
-.data-table th {
-  /* background-color: #f9f9f9; */
-  font-weight: 400;
-  font-family: Helvetica Neue LT Com;
-  font-size: 16px;
-  color: #000000;
-  border-radius: 8px;
-  
+.data-table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1; 
 }
+.table-icon{
+  display: flex;
+  gap: 2px;
+}
+.data-table th {
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
 .data-table th:hover{
   background-color: #E8E8E8;
   border-bottom: 1px solid #ddd;
+  border-radius: 8px;
 
 }
 .data-table tbody tr:hover {
   background-color: #E8E8E8;
   border-bottom: 1px solid #ddd;
   border-radius: 8px;
+}
+.data-table tbody {
+font-size: 14px;
 }
 
 .data-table input[type="checkbox"] {
@@ -55,37 +70,162 @@
   margin-top: 10px;
 }
 
+.checkbox-column {
+  width: 40px; 
+}
+
+.actions-column {
+  width: 40px; 
+}
+
 .array-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 8px;
+}
+.array-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+.no-wrap {
+  white-space: nowrap;
 }
 
-.array-item {
+
+
+.participant-name {
+  font-size: 14px; 
+  color: #333333;
+}
+.object-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.organizer-abb {
   display: inline-flex;
   align-items: center;
-  background-color: #eee;
-  padding: 4px 8px;
-  border-radius: 12px;
-  margin-right: 5px;
-  font-size: 12px;
+  background-color: #AB0E1E14;
+  padding: 6px 6px;
+  border-radius: 50%;
+  font-size: 10px;
+  color: #333333;
+  border: 1px solid #E8E8E8;
+
+}
+
+.organizer-name {
+  font-size: 14px; 
   white-space: nowrap;
+  color: #333333;
+}
+
+.participant {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 6px;
+  border-radius: 50%;
+  background-color: #AB0E1E14;
+  font-size: 10px;
+  color: #333333;
+  border: 1px solid #E8E8E8;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-badge.approved {
+  background-color: #00B29E0D; 
+  color: #00B29E; 
+  border: 1px solid #00B29E;
+}
+
+.status-badge.pending {
+  background-color: #F5F5F5; 
+  color: #76848F; 
+  border: 1px solid #76848F;
+}
+.status-badge.declined {
+  background-color: #F308240D; 
+  color: #F30824; 
+  border: 1px solid #F30824;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
 }
 
 .actions {
   display: flex;
-  gap: 8px;
+  justify-content: flex-end;
 }
 
-.action-image {
+.action-icon {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  stroke: #666666;
   transition: transform 0.2s ease;
+  padding: 5px;
+  border-radius: 50%;
 }
 
-.action-image:hover {
+.action-icon:hover {
   transform: scale(1.1);
+  background: white;
+}
+.action-icon circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #00000080;
+  background-color: white;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23AB0E1E'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+  background-size: 14px;
+  border: 2px solid #AB0E1E;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 
+
+/* Custom Pagination Styles */
+.custom-pagination ::ng-deep .ngx-pagination {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px ;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination li.current {
+  background-color: #AB0E1E14; 
+  color: #AB0E1E;
+  padding: 16px;
+  border: 1px solid #e8e8e8;
+}

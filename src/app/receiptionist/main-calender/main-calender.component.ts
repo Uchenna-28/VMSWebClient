@@ -8,8 +8,8 @@ import interactionPlugin from '@fullcalendar/interaction';
   selector: 'app-main-calendar',
   standalone: true,
   imports: [FullCalendarModule],
-  templateUrl: './main-calendar.component.html',
-  styleUrls: ['./main-calendar.component.scss'],
+  templateUrl: './main-calender.component.html',
+  styleUrls: ['./main-calender.component.scss'],
 })
 export class MainCalendarComponent implements OnChanges {
   @Input() selectedDate!: Date;

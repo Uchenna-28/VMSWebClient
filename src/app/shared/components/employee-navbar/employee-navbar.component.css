@@ -1,46 +1,67 @@
 .navbar {
-    position: fixed; /* Fix the navbar at the top */
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000; 
-    background-color: white;
-    height: 50px;
-  }
-  
-  .logo {
-    width:150px;
-   
-  }
-  .imgCont{
-    width:180px;
-    height:30px;
-  }
-  
-  .nav-links {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .nav-button {
-    padding: 10px 20px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .nav-button.active {
-    background-color: black;
-    color: white;
-    border-radius: 5px;
-  }
-  
-  .notification img {
-    width: 24px;
-  }
+  position: fixed; /* Fix the navbar at the top */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; 
+  background-color: #ffffff;
+ 
+}
+.navbar-wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  height: 50px;
+}
+
+.navbar-logo{
+display: flex;
+align-items: center;
+}
+.logo-image{
+  width:190px;
+  height:30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-button {
+  padding: 16px ;
+  background-color: white;
+  border: 1.5px solid #E8E8E8;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover:not(.active) {
+background-color: #E8E8E8; 
+}
+
+.nav-button.active {
+  background-color: #000000;
+  color: white;
+  border-radius: 16px;
+  border: none;
+}
+.navbar-notification {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 40px;
+height: 40px;
+border-radius: 50%; 
+border: 1.5px solid #E8E8E8;
+background-color: white;
+}
+
+.notification-icon {
+width: 22px;
+height: 22px;
+}

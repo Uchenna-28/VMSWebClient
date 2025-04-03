@@ -1,24 +1,26 @@
 <div class="navbar">
-  <div class="logo">
-    <img src="assets/images/newLogo.png" class="imgCont" alt="Logo" />
+  <div class="navbar-wrap">
+    <div class="navbar-logo">
+      <img src="assets/images/newLogo.png"  alt="Logo" class="logo-image" />
+    </div>
+      <div class="nav-links">
+        <button 
+          (click)="navigate('/receptionist/layout/dashboard')" 
+          [class.active]="isActive('/receptionist/layout/dashboard')" 
+          class="nav-button">
+          Dashboard
+        </button>
+        <button 
+          (click)="navigate('/receptionist/layout/calender')" 
+          [class.active]="isActive('/receptionist/layout/calender')" 
+          class="nav-button">
+          Calendar
+        </button>
+      </div>
+      <div class="navbar-notification">
+        <img src="assets/svgimages/notification1.svg" alt="Notification" class="notification-icon"  />
+      </div>
   </div>
-    <div class="nav-links">
-      <button 
-        (click)="navigate('/receptionist/layout/dashboard')" 
-        [class.active]="isActive('/receptionist/layout/dashboard')" 
-        class="nav-button">
-        Dashboard
-      </button>
-      <button 
-        (click)="navigate('/receptionist/layout/calender')" 
-        [class.active]="isActive('/receptionist/layout/calender')" 
-        class="nav-button">
-        Calendar
-      </button>
-    </div>
-    <div class="notification">
-      <img src="assets/images/back.png" alt="Notification" />
-    </div>
   </div>
   
 

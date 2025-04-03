@@ -1,17 +1,20 @@
 .card {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
+  border: 2px solid #E8E8E8;
+  display: flex; 
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .card .mainText {
   display: flex;
   align-items: center;
   color: #333;
-  margin-top: 5px; /* Adjust spacing */
+  margin: 0;
+  font-weight: 700;
+  gap: 2px;
 }
 
 .card .mainText app-svg-icon {
@@ -19,16 +22,16 @@
 }
 
 .card .mainText app-image {
-  margin-right: 3px;
+  margin-right: 2px;
 }
 
 .card h2 {
   color: #000000;
-  margin: 5px 0;
+  margin: 0;
 }
 
 .card .secondText {
   font-weight: 400;
-  color: #666;
-  margin-top: auto; /* Pushes subtitle to bottom */
+  color: #666666;
+  margin: 0;
 }

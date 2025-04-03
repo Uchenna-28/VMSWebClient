@@ -25,3 +25,6 @@
     justify-content: end;
     gap: 10px;
   }
+  .space-bottom{
+    margin-bottom: 20px;
+  }

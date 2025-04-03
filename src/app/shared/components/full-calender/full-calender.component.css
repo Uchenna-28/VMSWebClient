@@ -42,7 +42,7 @@
 
 /* Adjust table header styling */
 :host ::ng-deep .fc-theme-standard th .fc-col-header-cell-cushion {
-  font-family: Helvetica Neue LT Com !important;
+  /* font-family: Helvetica Neue LT Com !important; */
   font-weight: normal !important;
   font-size: 12px !important;
 }
@@ -57,7 +57,7 @@
 
 /* Adjust date number styling */
 :host ::ng-deep .fc-daygrid-day-number {
-  font-family: Helvetica Neue LT Com !important;
+  /* font-family: Helvetica Neue LT Com !important; */
   font-weight: normal !important;
   font-size: 10px !important;
 }
@@ -84,7 +84,7 @@
 /* Center the title (Month & Year) */
 .fc-toolbar-title {
   font-size: 18px;
-  font-family: Helvetica Neue LT Com !important;
+  /* font-family: Helvetica Neue LT Com !important; */
   font-weight: bold;
   text-align: center;
 }
@@ -111,8 +111,8 @@
   color: #fff !important;
   border-radius: 50% !important;
   display: inline-block;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   line-height: 28px;
   text-align: center;
   font-weight: bold;
@@ -136,7 +136,6 @@
   box-shadow: none !important;
   color: black !important;
   font-size: 18px;
-  font-family: Helvetica Neue LT Com !important;
   cursor: pointer;
   padding: 5px;
 }
@@ -149,7 +148,6 @@
   box-shadow: none !important;
   color: black !important;
   font-size: 18px !important;
-  font-family: Helvetica Neue LT Com !important;
   width: auto !important;
   height: auto !important;
   margin: 0 8px; /* Optional spacing between arrows and title */
@@ -191,9 +189,11 @@
   background-color: red !important;
   color: white !important;
   border-radius: 100% !important;
-  display: inline-block;
-  width: 28px;
-  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
   line-height: 28px;
   text-align: center;
   font-weight: bold;
@@ -202,7 +202,7 @@
 
 /* Reduce the height of calendar rows */
 :host ::ng-deep .fc-daygrid-body tr {
-  height: 25px !important; /* Reduced row height */
+  height: 20  px !important; /* Reduced row height */
 }
 
 /* Reduce padding inside each cell to make rows more compact */

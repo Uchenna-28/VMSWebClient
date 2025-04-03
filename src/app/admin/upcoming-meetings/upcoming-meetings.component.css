@@ -35,3 +35,6 @@
   app-date-time-input{
     flex: 1;
   }
+  .space-bottom{
+    margin-bottom: 20px;
+  }

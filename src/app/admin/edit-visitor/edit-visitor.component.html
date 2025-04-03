@@ -4,45 +4,43 @@
   label="Branch Name"
   placeholder="Enter Full Name"
   type="text"
-  [imageSrc]="'assets/images/pen.png'"
+  [imageSrc]="'assets/svgimages/pen.svg'"
   width="100%"
   height="20px"
   margin="0 0 10px 0"
-  fontFamily="Helvetica Neue LT Com"
   formControlName="fullName"
 />
 <app-input
   label="Email"
   placeholder="Enter Email"
   type="email"
-  [imageSrc]="'assets/images/Email.png'"
+  [imageSrc]="'assets/svgimages/Email.svg'"
   width="100%"
   height="20px"
   margin="0 0 10px 0"
-  fontFamily="Helvetica Neue LT Com"
   formControlName="email"
 />
 <app-input
   placeholder="Enter Phone Number"
   type="text"
-  [imageSrc]="'assets/images/meeting room.png'"
+  [imageSrc]="'assets/svgimages/meeting room.svg'"
   width="100%"
   height="20px"
   margin="0 0 10px 0"
-  fontFamily="Helvetica Neue LT Com"
   formControlName="phone"
 />
-<app-select
+<div class="space-bottom">
+  <app-select
   placeholder="Select Gender"
   [options]="genderOptions"
-  [imageSrc]="'assets/images/user.png'"
+  [imageSrc]="'assets/svgimages/user.svg'"
   width="100%"
   height="40px"
   margin="0 0 10px 0"
-  fontFamily="Helvetica Neue LT Com"
   formControlName="gender"
 >
 </app-select>
+</div>
 <!-- <app-select
   placeholder="Select Branch "
   [options]="branchOptions"
@@ -50,7 +48,6 @@
   width="100%"
   height="40px"
   margin="0 0 10px 0"
-  fontFamily="Helvetica Neue LT Com"
   formControlName="branch"
 >
 </app-select> -->
@@ -60,8 +57,7 @@
       backgroundColor="#AB0E1E"
       color="#ffffff"
       width="100%"
-      fontFamily="Helvetica Neue LT Com"
-      fontSize="16px"
+          fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
       type="submit"

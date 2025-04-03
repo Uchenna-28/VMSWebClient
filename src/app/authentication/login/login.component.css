@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Helvetica Neue LT Com;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 .container {
@@ -30,13 +30,16 @@
 }
 .login-section {
   flex: 1;
-  /* padding: 40px; */
+  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
   width: 100%;
-  margin-top: 70px;
+  max-width: 480px;
+  height: 100%;
+
 }
 
 .logo {
@@ -47,16 +50,39 @@
   color: #b30000;
 }
 
-h1 {
+/* h1 {
   font-size: 26px;
   margin-bottom: 5px;
+  text-align: center;
+} */
+
+.text-item{
+  /* background-color: white; */
+  text-align: center;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;     
+  width: 100%;             
+  margin-bottom: 20px; 
 }
 
-.subtext {
+.text-item h1{
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.text-item p{
+  font-size: 16px;
+  font-weight: 400;
+  
+}
+
+/* .subtext {
   font-size: 14px;
   color: #666;
   margin-bottom: 20px;
-}
+} */
 
 /* .input-group, .btn, etc. ... (unchanged) */
 
@@ -85,29 +111,35 @@ h1 {
   justify-content: center;
   margin-bottom: 30px;
 }
+.success-message p{
+  font-size: 16px;
+}
+.success-button{
+  width: 400px;
+}
 
 .logoImage {
-  width: 180px;
-  height: 30px;
+  width: 200px;
+  height: 24px;
 }
 
-.login-section .text-item {
-  align-items: center;
-  text-align: center;
-}
+/* .login-section .text-item { */
+  /* align-items: center;
+  text-align: center; */
+/* } */
 
 .login-section h1 {
   /* Overwritten your existing line for clarity: */
-  font-family: 'Helvetica Neue LT Com';
-  font-size: 30px;
-  margin-bottom: 1rem;
+  /* font-family: 'Helvetica Neue LT Com'; */
+  font-size: 40px;
+  margin-bottom: 0.8rem;
   color: #000000;
 }
 
 .login-section p {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #666;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.3rem;
 }
 
 /* Input Fields */
@@ -117,11 +149,31 @@ h1 {
 }
 
 .input-group input {
-  width: 120%;
-  padding: 0.75rem 2.5rem 0.75rem 2.5rem;
-  border: 2px solid #E8E8EB;
+  width: 450px;
+  padding: 0.75rem 2.5rem;
+  border: 1px solid #E8E8EB;
   border-radius: 8px;
   font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.input-group input:hover{
+  background-color: #e8e8e8;
+}
+.input-group input::placeholder{
+  font-size: 14px;
+  color: #00000080;
+  padding-left: 2px;
+
+}
+
+.input-group input:focus{
+  outline: none;
+  border-color: #d0d3d4;
+}
+
+.input-bottom{
+padding-top: 22px;
 }
 
 /* Email Icon */
@@ -130,39 +182,37 @@ h1 {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.2rem;
+  height: 1.2rem;
   fill: #C4C4C4;
 }
+
 
 /* Password Toggle */
 .toggle-password {
   position: absolute;
-  /* Shift it further right to compensate for the extra width */
-  right: -3rem; 
+  right: 1rem; 
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  color: #C4C4C4;
 }
 
 
 .eye-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  fill: #C4C4C4;
+  width: 1.15rem;
+  height: 1.15rem;
+  /* fill: #C4C4C4; */
 }
 
 /* Thumbs-up Icon */
 .thumbs-up {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 15px;
-  background: rgba(171, 14, 30, 0.1);
-  padding: 20px;
-  border-radius: 50%;
+  width: 110px;
+  height: 110px;
+  margin-bottom: 10px;
 }
 
 /* Full-width container (optional) */

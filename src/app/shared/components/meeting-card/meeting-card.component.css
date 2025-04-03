@@ -3,7 +3,7 @@
   border-radius: 8px;
   border: 1px solid #e0e0e0;
   background-color: white;
-  width: 220px;
+  width: 230px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -11,30 +11,35 @@
 
 .meeting-header {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 10px;
 }
 
 .meeting-header h4 {
   margin: 0;
   font-size: 14px;
+  margin-bottom: 2px;
 }
-
+.icon{
+  font-size: 20px;
+  width: 20px;
+}
 .meeting-header p {
   margin: 0;
-  font-size: 12px;
-  color: #666;
+  font-size: 11px;
+  color: #00000080;
 }
 
 .meeting-footer {
   margin-top: 5px;
-  font-size: 12px;
-  color: #444;
+  font-size: 14px;
+  color: #000000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2px;
 }
+
 .meeting-footer span {
   display: flex;
   align-items: center;

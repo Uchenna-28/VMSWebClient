@@ -1,4 +1,4 @@
-<div class="select-wrapper" [ngStyle]="{ width, margin, fontFamily }">
+<div class="select-wrapper" [ngStyle]="{ width, margin }">
   <label *ngIf="label">{{ label }}</label>
 
   <div class="select-container" [ngStyle]="{ height }">
@@ -6,8 +6,8 @@
     <app-image 
       *ngIf="imageSrc" 
       [src]="imageSrc"
-      [width]="'18px'"
-      [height]="'18px'"
+      [width]="'16px'"
+      [height]="'16px'"
       [borderRadius]="'5px'"
       class="select-icon"
     ></app-image>

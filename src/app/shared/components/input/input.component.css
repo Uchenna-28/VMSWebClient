@@ -15,11 +15,15 @@
 .input-field {
   width: 100%;
   padding: 8px 12px;
-  padding-left: 35px;  /* ✅ Creates space for the icon */
+  padding-left: 36px;  /* ✅ Creates space for the icon */
   border: 1px solid var(--borderColor, #ccc);
-  border-radius: var(--borderRadius, 5px);
+  border-radius: var(--borderRadius, 8px);
   outline: none;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.input-field:hover{
+  background-color: #e8e8e8;
 }
 
 /* .input-field:focus {

@@ -40,6 +40,7 @@ export class ReceiptionistTotalMeetingsComponent {
     'Category',
     'Organizer',
     'Participants',
+  
   ];
   handleSearch(value: string) {
     console.log('Search Query:', value);
@@ -61,8 +62,38 @@ export class ReceiptionistTotalMeetingsComponent {
         { initials: 'JS', name: 'Jane Smith' },
         { initials: 'SI', name: 'Sam Idowu' },
       ],
+      Action: ""
     },
-    // Add more rows as needed
+    {
+      Title: 'Quarterly Sales Planning',
+      Agenda: 'Discuss departmental achievements and set objectives for Q2.',
+      Date: 'Jan 12, 2025',
+      Time: '2:00 PM',
+      Room: 'Board Room',
+      Category: 'Pending',
+      Organizer: { initials: 'JD', name: 'John Doe' },
+      Participants: [
+        { initials: 'JD', name: 'John Doe' },
+        { initials: 'JD', name: 'John Doe' },
+        { initials: 'JS', name: 'Jane Smith' },
+      ],
+      Action: ""
+    },
+    {
+      Title: 'Quarterly Sales Planning',
+      Agenda: 'Discuss departmental achievements and set objectives for Q2.',
+      Date: 'Jan 12, 2025',
+      Time: '2:00 PM',
+      Room: 'Board Rooms',
+      Category: 'Declined',
+      Organizer: { initials: 'JD', name: 'John Doe' },
+      Participants: [
+        { initials: 'JD', name: 'John Doe' },
+        { initials: 'JD', name: 'John Doe' },
+        { initials: 'JS', name: 'Jane Smith' },
+      ],
+      Action: ""
+    }
   ];
 
   onRowAction(event: { row: any; action: string }) {
@@ -73,14 +104,14 @@ export class ReceiptionistTotalMeetingsComponent {
   
   viewMeeting(row: any) {
     this.selectedMeeting = [
-      { icon: '/assets/images/pen.png', label: 'Title', value: row['Title'] },
-      { icon: '/assets/images/list.png', label: 'Agenda', value: row['Agenda'] },
-      { icon: '/assets/images/calendar.png', label: 'Date', value: row['Date'] },
-      { icon: '/assets/images/clock.png', label: 'Time', value: row['Time'] },
-      { icon: '/assets/images/meeting room.png', label: 'Room', value: row['Room'] },
-      { icon: '/assets/images/user.png', label: 'Organizer', value: row['Organizer'].name },
+      { icon: '/assets/svgimages/pen.svg', label: 'Title', value: row['Title'] },
+      { icon: '/assets/svgimages/list.svg', label: 'Agenda', value: row['Agenda'] },
+      { icon: '/assets/svgimages/calendar.svg', label: 'Date', value: row['Date'] },
+      { icon: '/assets/svgimages/clock.svg', label: 'Time', value: row['Time'] },
+      { icon: '/assets/svgimages/meeting room.svg', label: 'Room', value: row['Room'] },
+      { icon: '/assets/svgimages/user.svg', label: 'Organizer', value: row['Organizer'].name },
       {
-        icon: '/assets/images/participants.png',
+        icon: '/assets/svgimages/participants.svg',
         label: 'Participants',
         value: row['Participants'].map((p: any) => p.name).join(', '),
       },
