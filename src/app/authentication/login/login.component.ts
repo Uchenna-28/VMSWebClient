@@ -53,7 +53,7 @@ export class LoginComponent {
     },
     {
       title: 'Success',
-      subtitle: 'Set a new password for your account.',
+      subtitle: 'Your password has been changed successfully.',
       buttonLabel: 'Sign In',
       fields: []
     },

@@ -1,9 +1,9 @@
 /* Tabs Section */
 .tabs-section {
-    background-color: #FBF3F3;
+    background-color: #AB0E1E0D;
     border: 1px solid #E8E8E8;
     border-radius: 8px;
-    padding: 1rem 2rem;
+    padding: 1rem;
 }
 
 .tabs {
@@ -13,26 +13,24 @@
 
 .tab {
     background: none;
+    color: #00000080;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 1rem;
     font-size: 16px;
-    font-weight: 700;
-    border-bottom: 1px solid transparent;
+    font-weight: 400;
     cursor: pointer;
     transition: border-bottom 0.3s ease, color 0.3s ease;
 }
 
 /* Add hover effect */
-.tab:hover {
-    color: #d2afb3;
+.tab:hover:not(.active) {
     border-radius: 8px;
-    border: 1px solid #d2afb3;
+    background-color: #E8E8E8;
 }
 
 /* Style for active tab */
 .tab.active {
     font-weight: bold;
+    color: #000000;
     border-bottom: 2px solid #AB0E1E;
-
-    /* color: #AB0E1E; */
 }

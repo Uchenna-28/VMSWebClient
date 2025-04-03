@@ -84,15 +84,15 @@ export class AdminDashboardMeetingComponent {
   
   viewMeeting(row: any) {
     this.selectedMeeting = [
-      { icon: '📝', label: 'Title', value: row['Title'] },
-      { icon: '📄', label: 'Agenda', value: row['Agenda'] },
-      { icon: '📅', label: 'Date', value: row['Date'] },
-      { icon: '⏰', label: 'Time', value: row['Time'] },
-      { icon: '🏢', label: 'Room', value: row['Room'] },
-      { icon: '📌', label: 'Category', value: row['Category'] },
-      { icon: '👤', label: 'Organizer', value: row['Organizer'].name },
+      { icon: 'assets/svgimages/pen.svg', label: 'Title', value: row['Title'] },
+      { icon: 'assets/svgimages/list.svg', label: 'Agenda', value: row['Agenda'] },
+      { icon: 'assets/svgimages/calendar.svg', label: 'Date', value: row['Date'] },
+      { icon: 'assets/svgimages/clock.svg', label: 'Time', value: row['Time'] },
+      { icon: 'assets/svgimages/meeting room.svg', label: 'Room', value: row['Room'] },
+      // { icon: '📌', label: 'Category', value: row['Category'] },
+      { icon: 'assets/svgimages/user.svg', label: 'Organizer', value: row['Organizer'].name },
       {
-        icon: '👥',
+        icon: 'assets/svgimages/participants.svg',
         label: 'Participants',
         value: row['Participants'].map((p: any) => p.name).join(', '),
       },

@@ -19,6 +19,7 @@ label {
   /* padding: 8px 12px; */
   background-color: #fff;
   height: 40px; /* Ensures uniform height */
+  transition: all 0.3s ease;
 }
 
 /* 🟢 Styles for FontAwesome icon (if used) */
@@ -47,4 +48,21 @@ select {
   padding: 8px 0 8px 35px; /* Ensure space for the icon */
   background-color: transparent;
   appearance: none; /* Removes default styles on some browsers */
+  cursor: pointer;
+  border-radius: 8px;
+}
+/* Custom dropdown arrow */
+.select-container::after {
+  content: url("/assets/svgimages/dropdownred.svg");
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Prevent the arrow from interfering with clicks */
+}
+
+select option {
+  background-color: #ffffff;
+  color: #1f2937;
+  padding: 16px;
 }

@@ -23,9 +23,8 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() icon: string = '';
   @Input() options: Array<string | { label: string; value: string }> = [];
   @Input() width: string = '100%';
-  @Input() height: string = '40px';
+  @Input() height: string = '80px';
   @Input() margin: string = '0';
-  @Input() fontFamily: string = 'Helvetica Neue LT Com';
   @Input() imageSrc: string = '';
 
   value: string = '';

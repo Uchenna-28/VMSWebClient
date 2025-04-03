@@ -22,15 +22,14 @@ export class DateTimeInputComponent implements ControlValueAccessor {
   @Input() type: 'date' | 'time' = 'date'; // Accepts date or time
   @Input() width: string = '100%';
   @Input() height: string = '40px';
-  @Input() fontSize: string = '16px';
+  @Input() fontSize: string = '14px';
   @Input() borderColor: string = '#ccc';
-  @Input() borderRadius: string = '5px';
+  @Input() borderRadius: string = '';
   @Input() backgroundColor: string = '#fff';
   @Input() color: string = '#000000';
   @Input() disabled: boolean = false;
   @Input() imageSrc: string = '';
   @Input() margin: string = '0px';
-  @Input() fontFamily: string = 'Helvetica Neue LT Com';
 
   @ViewChild('inputField', { static: false }) inputField!: ElementRef;
 

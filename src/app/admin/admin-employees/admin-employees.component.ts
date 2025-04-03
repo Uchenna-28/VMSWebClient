@@ -100,11 +100,11 @@ export class AdminEmployeesComponent {
     }
     viewVisitor(row: any) {
       this.selectedVisitor = [
-        { icon: '📝', label: 'FullName', value: row['FullName'] },
-        { icon: '📄', label: 'Email', value: row['Email'] },
-        { icon: '📅', label: 'PhoneNumber', value: row['PhoneNumber'] },
-        { icon: '⏰', label: 'Gender', value: row['Gender'] },
-        { icon: '🏢', label: 'Branch', value: row['Branch'] }
+        { icon: 'assets/svgimages/user.svg', label: 'FullName', value: row['FullName'] },
+        { icon: 'assets/svgimages/Email.svg', label: 'Email', value: row['Email'] },
+        { icon: 'assets/svgimages/phone.svg', label: 'PhoneNumber', value: row['PhoneNumber'] },
+        { icon: 'assets/svgimages/user.svg', label: 'Gender', value: row['Gender'] },
+        { icon: 'assets/svgimages/job title.svg', label: 'Branch', value: row['Branch'] }
       ];
       this.isViewModalOpen = true;
     }

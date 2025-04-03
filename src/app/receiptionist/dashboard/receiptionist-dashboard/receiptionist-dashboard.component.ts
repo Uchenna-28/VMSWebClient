@@ -44,7 +44,7 @@ export class ReceiptionistDashboardComponent {
   isConfirmModalOpen = false;
   isSelfieModalOpen = false;
   isPrintBadgeModalOpen = false;
-  profileImage: string = 'assets/images/webImage.png'; 
+  profileImage: string = 'assets/svgimages/receptionist.svg'; 
   capturedImage: string | null = null; // Store captured image
   imagePath = 'assets/images/save.png';
   isEditProfileModalOpen = false;
@@ -55,25 +55,25 @@ export class ReceiptionistDashboardComponent {
   public multipleWebcamsAvailable = false;
   summaryCards = [
     {
-      imageSrc: 'assets/IconImages/calendar.png',
+      imageSrc: 'assets/svgimages/calendar1.svg',
       title: 'Total Meetings Today',
       value: '63',
       subtitle: 'Total meetings this month',
     },
     {
-      imageSrc: 'assets/IconImages/end time.png',
+      imageSrc: 'assets/svgimages/endtime.svg',
       title: 'No. of Approved meetings',
       value: '32',
       subtitle: 'Total approved meetings this month',
     },
     {
-      imageSrc: 'assets/IconImages/participants 3.png',
+      imageSrc: 'assets/svgimages/participants3.svg',
       title: 'Total No. of Visitors',
       value: '13',
       subtitle: 'Total visitors this month',
     },
     {
-      imageSrc: 'assets/IconImages/meeting room.png',
+      imageSrc: 'assets/svgimages/meetingroom.svg',
       title: 'No. of Declined Meetings',
       value: '63',
       subtitle: 'Total declined meeting this month',

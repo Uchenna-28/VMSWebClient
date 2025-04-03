@@ -1,5 +1,5 @@
 .main-content {
-    padding: 100px 30px 20px; /* Add top padding to avoid overlapping with the fixed navbar */
+    padding: 100px 20px; /* Add top padding to avoid overlapping with the fixed navbar */
   }
   
   /* Profile Card */
@@ -11,60 +11,67 @@
   }
   .summary-cards {
     display: flex;
-    /* grid-template-columns: 1fr, 2fr; */
     justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 30px;
-    /* background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    height: 300px;
   }
   
   .summary {
-    width: 60%;
+    width: 45%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 3 cards per row */
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    gap: 16px;
     background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 16px 12px;
+    border-radius: 16px;
+    border: 2px solid #E8E8E8;
   }
+  
   .profile-card {
-    width: 20%;
+    /* max-width: 380px; */
+    width: 26%;
+    height: 300px!;
     background-color: #fff;
-        border: 6px solid #c0392b;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        position: relative;
+        border: 12px solid #c0392b;
+        border-radius: 16px;
+        padding: 16px;
+        /* position: relative; */
         text-align: center;
-        font-family: Helvetica Neue LT Com;
+  }
+  .profile-wrap{
+    border-radius: 16px;
+  }
+  .otp-box{
+    width: 80px; 
+    height: 80px;
+    /* margin-bottom: 15px;   */
+    /* padding: 20px;  */
+    /* border-radius: 50%;  */
+    stroke: #ffffff; 
   }
   
   .badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
+    
       display: flex;
       align-items: center;
-      background-color: #000;
-      color: #fff;
-      padding: 5px 10px;
-      border-radius: 20px;
+      gap: 8px;
+      background-color: #AB0E1E0D;
+      color: #000;
+      padding: 5px 8px;
+      border-radius: 32px;
       font-size: 12px;
     }
-  
-    .badge i {
-      width: 15px;
-      height: 15px;
-      background-color: #c0392b;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
+    .badge p{
+padding: 0;
     }
   
+  .top-class{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    /* background-color: red; */
+  }
     .edit {
       position: absolute;
       top: 10px;
@@ -74,13 +81,37 @@
       border-radius: 50%;
       padding: 5px;
     }
-  
+    .more-button {
+      width: 40px; 
+      height: 40px; 
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid #E8E8E8;
+      border-radius: 50%;
+    }
+    
+    .more-icon {
+      width: 20px; 
+      height: 20px; 
+    }
+    
     .avatar {
-      width: 60px;
-      height: 60px;
-      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 90px;
+      height: 100px;
       border-radius: 50%;
       margin: 20px auto;
+    }
+    .avatar img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   
     .name {
@@ -128,8 +159,9 @@
     color: #666;
   }
   .otp-card {
-    width: 20%;
-    /* height: 220px; */
+    width: 23%;
+  
+    height: 300px;
     background-color: #1f2e3d;
     color: #fff;
     border-radius: 16px;
@@ -138,7 +170,6 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    font-family: Arial, sans-serif;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
@@ -179,7 +210,6 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    /* margin-top: 10px; */
   }
   
   .capture-btn:hover {
@@ -273,14 +303,12 @@
 .details {
     flex-grow: 1;
     text-align: left;
-    font-family: Helvetica Neue LT Com;
 }
 .details p {
     font-size: 16px;
     margin: 13px 0;
     font-weight: bold;
     border-bottom: 1.52px solid #243444;
-    font-family: Helvetica Neue LT Com;
 }
 .details span {
     font-weight: normal;   
@@ -303,14 +331,12 @@
   gap: 10px;
   padding: 3px 10px;
   margin-bottom: 10px;
-  font-family: Helvetica Neue LT Com !important;
 }
 
 .details-container p{
   font-size: 16px;
   margin-left: 10px;
   margin-bottom: 6px;
-  font-family: Helvetica Neue LT Com;
   font-weight: 700;
 
 }
@@ -329,14 +355,12 @@
 .detail-title span{
   font-weight: 700;
   font-size: 16px;
-  font-family: Helvetica Neue T Com;
   margin-left: 3px;
   
 }
 .detail-title p{
   font-weight: 400;
   font-size: 16px;
-  font-family: Helvetica Neue LT Com;
   line-height: 100%;
 }
 .icon {
@@ -353,12 +377,12 @@
   app-checkbox{
     margin: 0;
   }
-  .avatar img {
+  /* .avatar img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-  }
+  } */
   
   /* ✅ Responsive behavior */
   @media (max-width: 768px) {

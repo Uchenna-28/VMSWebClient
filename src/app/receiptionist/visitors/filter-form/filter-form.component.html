@@ -13,21 +13,20 @@
     <app-select
       placeholder="Select Gender"
       [options]="genderOptions"
-      [imageSrc]="'assets/images/user.png'"
+      [imageSrc]="'assets/svgimages/user.svg'"
       width="100%"
       height="40px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="gender"
     >
     </app-select>
     <app-select
     placeholder="Sort by date"
     [options]="sortOptions"
-    [imageSrc]="'assets/images/Sort.png'"
+    [imageSrc]="'assets/svgimages/Sort.svg'"
     width="100%"
-    margin="0 0 10px 0"
-    fontFamily="Helvetica Neue LT Com"
+    height="40px"
+    margin="0 0 25px 0"
     formControlName="sort"
   >
   </app-select>
@@ -37,7 +36,6 @@
       backgroundColor="#AB0E1E"
       color="#ffffff"
       width="100%"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"

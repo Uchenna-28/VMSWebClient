@@ -1,5 +1,6 @@
 <button 
   [style.background-color]="backgroundColor"
+  [style.--hover-bg-color]="hoverBackgroundColor"
   [style.color]="color"
   [style.width]="width"
   [style.height]="height"
@@ -18,10 +19,8 @@
   <app-image 
   *ngIf="imageSrc"
   [src]="imageSrc" 
-  [width]="'15px'" 
-  [height]="'15px'"
-  [borderRadius]="'50%'"
-  [color]="'red'"
+  [width]="'18px'" 
+  [height]="'18px'"
 >
 </app-image>
   <span>{{ label }}</span>

@@ -18,7 +18,7 @@
         <div class="text-item">
           <div *ngIf="stepIndex === 2" class="success-message">
             <img
-              src="assets/images/newSucces.png"
+              src="assets/svgimages/newSuccess.svg"
               alt="Success Icon"
               class="thumbs-up"
             />
@@ -33,17 +33,16 @@
 
         <form [formGroup]="authForm" (ngSubmit)="nextStep()">
           <!-- If stepIndex is 2, show only the button (hide fields) -->
-          <div *ngIf="stepIndex === 2" class="">
+          <div *ngIf="stepIndex === 2" class="success-button">
             <app-meeting-button
               [label]="currentStep.buttonLabel"
               backgroundColor="#AB0E1E"
               color="white"
               width="100%"
               border="2px solid #E8E8E8"
-              fontFamily="Helvetica Neue LT Com"
               fontSize="16px"
               fontWeight="400"
-              [padding]="'10px 120px'"
+              [padding]="'16px 16px'"
               borderRadius="8px"
               type="submit"
             >
@@ -51,8 +50,8 @@
           </div>
 
           <!-- If stepIndex is NOT 2, show the fields first, then the button -->
-          <div *ngIf="stepIndex !== 2">
-            <div *ngFor="let field of currentStep.fields">
+          <div *ngIf="stepIndex !== 2" >
+            <div *ngFor="let field of currentStep.fields" >
               <div class="input-group">
                 <!-- Left Icon -->
                 <img
@@ -81,26 +80,29 @@
                 <img
                   *ngIf="field.type === 'password'"
                   class="toggle-password"
-                  [src]="field.showPassword ? 'assets/images/eye-on.png' : 'assets/images/eye-off.png'"
+                  [src]="field.showPassword ? 'assets/images/eye-on.png' : 'assets/svgimages/eye-on1.svg'"
                   (click)="field.showPassword = !field.showPassword"
                   alt="Toggle Password"
                 />
               </div>
             </div>
             
+           <div class="input-bottom">
             <app-meeting-button
-              [label]="currentStep.buttonLabel"
-              backgroundColor="#AB0E1E"
-              color="white"
-              width="120%"
-              border="2px solid #E8E8E8"
-              fontFamily="Helvetica Neue LT Com"
-              fontSize="16px"
-              fontWeight="400"
-              borderRadius="8px"
-              type="submit"
-            >
-            </app-meeting-button>
+            [label]="currentStep.buttonLabel"
+            backgroundColor="#AB0E1E"
+            color="white"
+            width="100%"
+            height="48px"
+            border="2px solid #E8E8E8"
+            fontSize="16px"
+            fontWeight="400"
+            borderRadius="8px"
+            [padding]="'16px 16px'"
+            type="submit"
+          >
+          </app-meeting-button>
+           </div>
           </div>
         </form>
       </div>

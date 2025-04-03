@@ -20,16 +20,16 @@ import { ImageComponent } from '../image/image.component';
 export class TextareaComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Input() width: string = '100%';
-  @Input() height: string = '100px';
+  @Input() height: string = '80px';
   @Input() fontSize: string = '14px';
   @Input() borderColor: string = '#ccc';
-  @Input() borderRadius: string = '5px';
+  @Input() borderRadius: string = '8px';
   @Input() backgroundColor: string = '#fff';
   @Input() color: string = '#000';
   @Input() disabled: boolean = false;
   @Input() imageSrc: string = '';
   @Input() margin: string = '0px';
-  @Input() fontFamily: string = 'Arial, sans-serif';
+  // @Input() fontFamily: string = 'Arial, sans-serif';
 
   value: string = '';
   onChange: (value: string) => void = () => {};

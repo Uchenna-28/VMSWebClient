@@ -49,14 +49,14 @@ export class EmployeeMeetingInvitesComponent {
   
   openMeetingDetails(meeting: any) {
     this.selectedRow = [
-      { icon: 'assets/images/pen.png', label: 'Title', value: meeting.title },
-      { icon: 'assets/images/list.png', label: 'Agenda', value: meeting.agenda || 'No agenda specified' },
-      { icon: 'assets/images/calendar.png', label: 'Date', value: meeting.date },
-      { icon: 'assets/images/clock.png', label: 'Time', value: meeting.time },
-      { icon: 'assets/images/meeting room.png', label: 'Room', value: meeting.location },
-      { icon: 'assets/images/user.png', label: 'Organizer', value: meeting.organizer?.name || 'Unknown' },
+      { icon: 'assets/svgimages/pen.svg', label: 'Title', value: meeting.title },
+      { icon: 'assets/svgimages/list.svg', label: 'Agenda', value: meeting.agenda || 'No agenda specified' },
+      { icon: 'assets/svgimages/calendar.svg', label: 'Date', value: meeting.date },
+      { icon: 'assets/svgimages/clock.svg', label: 'Time', value: meeting.time },
+      { icon: 'assets/svgimages/meeting room.svg', label: 'Room', value: meeting.location },
+      { icon: 'assets/svgimages/user.svg', label: 'Organizer', value: meeting.organizer?.name || 'Unknown' },
       {
-        icon: 'assets/images/participants.png',
+        icon: 'assets/svgimages/participants.svg',
         label: 'Participants',
         value: meeting.participants.map((p: any) => p.name).join(', ') || 'No participants'
       }

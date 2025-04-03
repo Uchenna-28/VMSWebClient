@@ -25,13 +25,13 @@ export class InputComponent implements ControlValueAccessor {
   @Input() height: string = '40px';
   @Input() fontSize: string = '14px';
   @Input() borderColor: string = '#ccc';
-  @Input() borderRadius: string = '5px';
+  @Input() borderRadius: string = '8px';
   @Input() backgroundColor: string = '#fff';
   @Input() color: string = '#000';
   @Input() disabled: boolean = false;
   @Input() imageSrc: string = '';
   @Input() margin: string = '0px';
-  @Input() fontFamily: string = 'Arial, sans-serif'; // Default font family
+  @Input() fontFamily: string = ''; // Default font family
   value: string = '';
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};

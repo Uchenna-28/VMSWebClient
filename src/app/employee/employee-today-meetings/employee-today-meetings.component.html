@@ -9,12 +9,12 @@
   <div class="table-buttons">
     <app-meeting-button
       label="Filter"
-      [imageSrc]="'assets/images/Filter.png'"
+      [imageSrc]="'assets/svgimages/Filter.svg'"
       backgroundColor="#FFFFFF"
+      hoverBackgroundColor="#E8E8E8"
       color="#000000"
       width="128px"
       border="2px solid #E8E8E8"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
@@ -26,10 +26,10 @@
       label="Cancel"
       [imageSrc]="'assets/IconImages/delete.png'"
       backgroundColor="#FFFFFF"
-      color="#F30824"
+      hoverBackgroundColor="#E8E8E8"
+      color="#AB0E1E"
       width="128px"
       border="2px solid #E8E8E8"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
@@ -40,9 +40,9 @@
       label="New Meeting"
       [imageSrc]="'assets/WhiteIcons/calendar.png'"
       backgroundColor="#243444"
+      hoverBackgroundColor="#243444"
       color="#ffffff"
       width="150px"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
@@ -79,11 +79,10 @@
       label="Meeting title"
       placeholder="Meeting title"
       type="text"
-      [imageSrc]="'assets/images/pen.png'"
+      [imageSrc]="'assets/svgimages/pen.svg'"
       width="100%"
       height="20px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="title"
     ></app-input>
 
@@ -93,11 +92,10 @@
       [height]="'40px'"
       [fontSize]="'16px'"
       [borderRadius]="'8px'"
-      [backgroundColor]="'#f9f9f9'"
+      [backgroundColor]="'#ffffff'"
       [color]="'#333'"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
-      [imageSrc]="'assets/images/list.png'"
+      [imageSrc]="'assets/svgimages/list.svg'"
     ></app-textarea>
     <app-date-time-input
       placeholder="Start date"
@@ -105,8 +103,7 @@
       width="100%"
       height="20px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
-      [imageSrc]="'assets/images/calendar.png'"
+      [imageSrc]="'assets/svgimages/calendar.svg'"
       formControlName="startDate"
     />
 
@@ -117,8 +114,7 @@
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
-        [imageSrc]="'assets/images/clock.png'"
+          [imageSrc]="'assets/svgimages/clock.svg'"
         formControlName="startTime"
       />
       <app-date-time-input
@@ -127,34 +123,33 @@
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
-        [imageSrc]="'assets/images/clock.png'"
+          [imageSrc]="'assets/svgimages/clock.svg'"
         formControlName="endTime"
       />
     </div>
     <app-select
       placeholder="Select meeting room"
       [options]="meetingRoomsOptions"
-      [imageSrc]="'assets/images/meeting room.png'"
+      [imageSrc]="'assets/svgimages/meeting room.svg'"
       width="100%"
       height="40px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="meetingRoom"
     >
     </app-select>
 
+   <div class="space-bottom">
     <app-input
-      label="Enter participants name or email"
-      placeholder="Enter participants name or email"
-      type="text"
-      [imageSrc]="'assets/images/participants.png'"
-      width="100%"
-      height="20px"
-      margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
-      formControlName="participants"
-    ></app-input>
+    label="Enter participants name or email"
+    placeholder="Enter participants name or email"
+    type="text"
+    [imageSrc]="'assets/svgimages/participants.svg'"
+    width="100%"
+    height="20px"
+    margin="0 0 10px 0"
+    formControlName="participants"
+  ></app-input>
+   </div>
 
     <app-meeting-button
       label="Preview"
@@ -162,7 +157,6 @@
       backgroundColor="#AB0E1E"
       color="#ffffff"
       width="100%"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
@@ -182,12 +176,12 @@
   <div class="header-actions">
     <app-meeting-button
       label="Edit"
-      [imageSrc]="'assets/images/pen.png'"
+      [imageSrc]="'assets/svgimages/pen.svg'"
       backgroundColor="#FFFFFF"
+      hoverBackgroundColor="#E8E8E8"
       color="#000000"
       width="128px"
       border="2px solid #E8E8E8"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
@@ -199,10 +193,10 @@
       label="Delete"
       [imageSrc]="'assets/IconImages/delete.png'"
       backgroundColor="#FFFFFF"
-      color="#F30824"
+      hoverBackgroundColor="#E8E8E8"
+      color="#AB0E1E"
       width="128px"
       border="2px solid #E8E8E8"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"
@@ -226,11 +220,10 @@
       label="Meeting title"
       placeholder="Meeting title"
       type="text"
-      [imageSrc]="'assets/images/pen.png'"
+      [imageSrc]="'assets/svgimages/pen.svg'"
       width="100%"
       height="20px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="title"
     ></app-input>
 
@@ -240,11 +233,10 @@
       [height]="'40px'"
       [fontSize]="'16px'"
       [borderRadius]="'8px'"
-      [backgroundColor]="'#f9f9f9'"
+      [backgroundColor]="'#fffffff'"
       [color]="'#333'"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
-      [imageSrc]="'assets/images/list.png'"
+      [imageSrc]="'assets/svgimages/list.svg'"
     ></app-textarea>
     <app-date-time-input
       placeholder="Start date"
@@ -252,8 +244,7 @@
       width="100%"
       height="20px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
-      [imageSrc]="'assets/images/calendar.png'"
+      [imageSrc]="'assets/svgimages/calendar.svg'"
       formControlName="startDate"
     />
 
@@ -264,8 +255,7 @@
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
-        [imageSrc]="'assets/images/clock.png'"
+          [imageSrc]="'assets/svgimages/clock.svg'"
         formControlName="startTime"
       />
       <app-date-time-input
@@ -274,40 +264,38 @@
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
-        [imageSrc]="'assets/images/clock.png'"
+          [imageSrc]="'assets/svgimages/clock.svg'"
         formControlName="endTime"
       />
     </div>
     <app-select
       placeholder="Select meeting room"
       [options]="meetingRoomsOptions"
-      [imageSrc]="'assets/images/meeting room.png'"
+      [imageSrc]="'assets/svgimages/meeting room.svg'"
       width="100%"
       height="40px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="meetingRoom"
     >
     </app-select>
 
-    <app-input
+    <div class="space-bottom">
+      <app-input
       label="Enter participants name or email"
       placeholder="Enter participants name or email"
       type="text"
-      [imageSrc]="'assets/images/participants.png'"
+      [imageSrc]="'assets/svgimages/participants.svg'"
       width="100%"
       height="20px"
       margin="0 0 10px 0"
-      fontFamily="Helvetica Neue LT Com"
       formControlName="participants"
     ></app-input>
+    </div>
     <app-meeting-button
       label="Save"
       backgroundColor="#AB0E1E"
       color="#ffffff"
       width="100%"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"

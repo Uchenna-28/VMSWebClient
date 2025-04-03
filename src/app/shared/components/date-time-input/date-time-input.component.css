@@ -17,7 +17,7 @@
     padding: 8px 12px;
     padding-left: 35px;
     border: 1px solid var(--borderColor, #ccc);
-    border-radius: var(--borderRadius, 5px);
+    border-radius: var(--borderRadius, 8px);
     outline: none;
     transition: 0.3s ease;
     background-color: transparent; /* Ensures placeholder visibility */
@@ -37,7 +37,6 @@
     color: #999;
     pointer-events: none;
     font-size: 14px;
-    font-family: Helvetica Neue LT Com;
   }
   
   /* Hide placeholder when input has value */

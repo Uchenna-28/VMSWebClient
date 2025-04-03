@@ -18,9 +18,9 @@ export class CardComponent {
   @Input() subtitle: string = ''; // Subtitle
 
   // Dynamic Styling Inputs
-  @Input() cardWidth: string = '220px';
-  @Input() cardHeight: string = '100px';
-  @Input() padding: string = '15px 20px';
+  @Input() cardWidth: string = '100%';
+  @Input() cardHeight: string = '120px';
+  @Input() padding: string = '15px 16px';
   @Input() iconSize: number = 24;
   @Input() iconColor: string = '#b30000';
   @Input() iconStrokeWidth: number = 15;

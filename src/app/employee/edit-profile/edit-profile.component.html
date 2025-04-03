@@ -5,11 +5,10 @@
         label="Name"
         placeholder="Enter your name"
         type="text"
-        [imageSrc]="'assets/images/pen.png'"
+        [imageSrc]="'assets/svgimages/pen.svg'"
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
         formControlName="name"
       ></app-input>
   
@@ -18,11 +17,10 @@
         label="Email"
         placeholder="Enter your email"
         type="email"
-        [imageSrc]="'assets/images/Email.png'"
+        [imageSrc]="'assets/svgimages/Email.svg'"
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
         formControlName="email"
       ></app-input>
   
@@ -31,11 +29,10 @@
         label="Phone"
         placeholder="Enter your phone number"
         type="text"
-        [imageSrc]="'assets/images/phone.png'"
+        [imageSrc]="'assets/svgimages/phone.svg'"
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
         formControlName="phone"
       ></app-input>
   
@@ -43,11 +40,10 @@
       <app-select
         placeholder="Select Gender"
         [options]="genderOptions"
-        [imageSrc]="'assets/images/user.png'"
+        [imageSrc]="'assets/svgimages/user.svg'"
         width="100%"
         height="40px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
         formControlName="gender"
       ></app-select>
   
@@ -56,11 +52,10 @@
         label="Location"
         placeholder="Enter your location"
         type="text"
-        [imageSrc]="'assets/images/job title.png'"
+        [imageSrc]="'assets/svgimages/job title.svg'"
         width="100%"
         height="20px"
         margin="0 0 10px 0"
-        fontFamily="Helvetica Neue LT Com"
         formControlName="location"
       ></app-input>
   
@@ -75,7 +70,8 @@
           (click)="fileInput.click()"
         >
           <ng-container *ngIf="!previewImage">
-            <p>📂 Select or Drop here</p>
+            <img src="assets/svgimages/picture.svg" alt="file picture" width="18px" height="18px">
+            <p> Select or Drop here</p>
           </ng-container>
           <img *ngIf="previewImage" [src]="previewImage" class="preview-image" />
         </div>
@@ -88,7 +84,6 @@
       backgroundColor="#AB0E1E"
       color="#ffffff"
       width="100%"
-      fontFamily="Helvetica Neue LT Com"
       fontSize="16px"
       fontWeight="400"
       borderRadius="8px"

@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-mini-calendar',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './mini-calendar.component.html',
-  styleUrls: ['./mini-calendar.component.scss'],
+  templateUrl: './mini-calender.component.html',
+  styleUrls: ['./mini-calender.component.scss'],
 })
 export class MiniCalendarComponent {
   @Output() dateSelected = new EventEmitter<Date>();

@@ -12,7 +12,6 @@
     gap: 15px;
     font-size: 16px;
     padding: 10px 0;
-    font-family: Helvetica Neue LT Com;
     font-weight: 400;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .view-value {
-    font-size: 16px;
+    font-size: 15px;
     color: #333;
     font-weight: 400;
 }

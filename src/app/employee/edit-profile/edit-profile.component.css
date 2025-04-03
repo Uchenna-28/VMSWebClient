@@ -5,6 +5,7 @@
   .profile-picture-container {
     /* margin-top: 15px; */
     /* text-align: center; */
+    margin-bottom: 25px;
   }
   
   .drop-zone {
@@ -17,15 +18,20 @@
     cursor: pointer;
     background-color: #f9f9f9;
     margin-bottom: 10px;
+    border-radius: 8px;
   }
   
   .drop-zone p {
-    color: #555;
+    color: #000000;
     font-size: 14px;
+    margin-left: 2px;
   }
   
   .drop-zone:hover {
     border-color: #ab0e1e;
+  }
+  .profile-picture-container label{
+    font-size: 14px;
   }
   
   .preview-image {

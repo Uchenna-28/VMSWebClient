@@ -16,18 +16,21 @@
   
   .textarea-field {
     width: 100%;
-    padding: 12px 12px;
-    padding-left: 40px;  /* Pushes placeholder and text away from the icon */
+    padding: 8px;
+    padding-left: 35px;  /* Pushes placeholder and text away from the icon */
     border: 1px solid var(--borderColor, #ccc);
     border-radius: var(--borderRadius, 5px);
     outline: none;
     background-color: var(--backgroundColor, #fff);
     color: var(--color, #000);
     font-size: var(--fontSize, 14px);
-    font-family: var(--fontFamily, Arial, sans-serif);
+    font-family: var(--fontFamily);
     resize: vertical;
     line-height: 1.4;  /* Improves text alignment */
     /* transition: border-color 0.3s ease, box-shadow 0.3s ease; */
+  }
+  .textarea-field::placeholder{
+    font-size: 14px;
   }
   
   /* .textarea-field:focus {

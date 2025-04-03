@@ -150,14 +150,14 @@ export class AdminTodayMeetingComponent {
 
   viewMeeting(row: any) {
     this.selectedRow = [
-      { icon: '📝', value: row['Title'] },
-      { icon: '📄', value: row['Agenda'] },
-      { icon: '📅', value: row['Date'] },
-      { icon: '⏰', value: row['Time'] },
-      { icon: '🏢', value: row['Room'] },
-      { icon: '📌', value: row['Category'] },
-      { icon: '👤', value: row['Organizer'].name },
-      { icon: '👥', value: row['Participants'].map((p: any) => p.name).join(', ') },
+      { icon: '/assets/svgimages/pen.svg', value: row['Title'] },
+      { icon: 'assets/svgimages/list.svg', value: row['Agenda'] },
+      { icon: 'assets/svgimages/calendar.svg', value: row['Date'] },
+      { icon: 'assets/svgimages/clock.svg', value: row['Time'] },
+      { icon: 'assets/svgimages/meeting room.svg', value: row['Room'] },
+      // { icon: '📌', value: row['Category'] },
+      { icon: 'assets/svgimages/user.svg', value: row['Organizer'].name },
+      { icon: 'assets/svgimages/participants.svg', value: row['Participants'].map((p: any) => p.name).join(', ') },
     ];
     this.isModalViewOpen = true;
   }

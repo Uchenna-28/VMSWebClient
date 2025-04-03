@@ -1,7 +1,7 @@
 <div class="meeting-card">
   <div class="meeting-header">
     <div class="meeting-title">
-      <img src="assets/images/calendar.png" alt="Calendar" class="icon-img" />
+      <img src="assets/svgimages/calendarplus.svg" alt="Calendar" class="icon-img" />
       <span>{{ meeting.title }}</span>
     </div>
     <div class="meeting-time">
@@ -36,6 +36,7 @@
       *ngIf="!accepted && !declined"
       label="Decline"
       backgroundColor="#243444"
+      hoverBackgroundColor="#243444"
       borderRadius="8px"
       color="#ffffff"
       width="100%"
