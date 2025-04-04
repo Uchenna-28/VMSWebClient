@@ -5,7 +5,11 @@
   "projects": {
     "vms-project-web": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/vms-project-web",
+            "outputPath": "dist/VMSProjectWeb",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -57,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "vms-project-web:build:production"
+              "buildTarget": "VMSProjectWeb:build:production"
             },
             "development": {
-              "buildTarget": "vms-project-web:build:development"
+              "buildTarget": "VMSProjectWeb:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,8 +92,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }
