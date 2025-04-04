@@ -75,7 +75,6 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               #packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              #packageForLinux: '/home/vsts/work/1/drop/$(Build.BuildId).zip'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               deploymentMethod: 'zipDeploy'              
               startUpCommand: 'pm2 serve /home/site/wwwroot/dist/vms-project-web --spa --no-daemon'
